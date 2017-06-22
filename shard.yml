@@ -1,0 +1,13 @@
+name: geode
+version: 0.1.0
+
+authors:
+  - Dan Fox <dhf2001@gmail.com>
+
+targets:
+  geode:
+    main: src/geode.cr
+
+crystal: 0.22.0
+
+license: MIT
