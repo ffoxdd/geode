@@ -1,5 +1,4 @@
 require "./spec_helper"
-require "../src/geode"
 
 describe Geode do
   describe "VERSION" do

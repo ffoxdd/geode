@@ -1,4 +1,4 @@
-require "./geode/**"
+require "./geode/version"
 
 module Geode
 end
