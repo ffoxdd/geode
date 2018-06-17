@@ -6,11 +6,11 @@ class DLA
   getter aabb
   @grower : Grower
 
-  def initialize(@grower = ::Grower.new)
-    @particles = [] of Particle
+  def initialize(particles = [Particle.new], @grower = ::Grower.new)
     @aabb = AABB.new
+    @particles = [] of Particle
 
-    add_particle(Particle.new)
+    particles.each { |particle| add_particle(particle) }
   end
 
   def size

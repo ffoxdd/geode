@@ -2,20 +2,33 @@ require "./spec_helper"
 
 describe DLA do
   describe ".new" do
-    it "returns a DLA with a seed particle" do
+    it "defaults to a single particle at the origin" do
       dla = DLA.new
-      dla.size.should eq(1)
-    end
-  end
 
-  describe "#aabb" do
-    it "initializes to an origin-centered aabb with radius 1" do
-      dla = DLA.new
+      dla.size.should eq(1)
 
       dla.aabb.should eq(
         AABB.new(
           minimum_point: Vector2.new(-1.0, -1.0),
-          maximum_point: Vector2.new(1.0, 1.0)
+          maximum_point: Vector2.new(1.0, 1.0),
+        )
+      )
+    end
+  end
+
+  describe "#aabb" do
+    it "initializes the aabb to match the initial particles" do
+      dla = DLA.new(
+        particles: [
+          Particle.new(center: Vector2.new(1.0, 1.0), radius: 1.0),
+          Particle.new(center: Vector2.new(3.0, 3.0), radius: 2.0),
+        ]
+      )
+
+      dla.aabb.should eq(
+        AABB.new(
+          minimum_point: Vector2.new(0.0, 0.0),
+          maximum_point: Vector2.new(5.0, 5.0),
         )
       )
     end
@@ -25,13 +38,6 @@ describe DLA do
 
   describe "#grow" do
     it "adds a particle to the aggregate" do
-      dla = DLA.new
-      dla.grow
-
-      dla.size.should eq(2)
-    end
-
-    it "updates the bounding box" do
         dla = DLA.new(
           grower: FakeGrower.new(
             Particle.new(center: Vector2.new(1.0, 0.0), radius: 1.0)
@@ -39,6 +45,8 @@ describe DLA do
         )
 
         dla.grow
+
+        dla.size.should eq(2)
 
         dla.aabb.should eq(
           AABB.new(
