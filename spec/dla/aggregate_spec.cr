@@ -1,9 +1,9 @@
-require "./spec_helper"
+require "../spec_helper"
 
-describe DLA do
+describe DLA::Aggregate do
   describe ".new" do
     it "defaults to a single particle at the origin" do
-      dla = DLA.new
+      dla = DLA::Aggregate.new
 
       dla.size.should eq(1)
 
@@ -18,7 +18,7 @@ describe DLA do
 
   describe "#aabb" do
     it "initializes the aabb to match the initial particles" do
-      dla = DLA.new(
+      dla = DLA::Aggregate.new(
         particles: [
           Particle.new(center: Vector2.new(1.0, 1.0), radius: 1.0),
           Particle.new(center: Vector2.new(3.0, 3.0), radius: 2.0),
@@ -38,7 +38,7 @@ describe DLA do
 
   describe "#grow" do
     it "adds a particle to the aggregate" do
-        dla = DLA.new(
+        dla = DLA::Aggregate.new(
           grower: FakeGrower.new(
             Particle.new(center: Vector2.new(1.0, 0.0), radius: 1.0)
           )
@@ -59,7 +59,7 @@ describe DLA do
 end
 
 class FakeGrower
-  include DLA::Grower
+  include DLA::Aggregate::Grower
 
   def initialize(@particle : Particle)
   end
