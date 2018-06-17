@@ -3,7 +3,7 @@ require "./spec_helper"
 require "benchmark"
 
 describe Vector2 do
-  describe "#initialize" do
+  describe ".new" do
     it "defaults x and y to 0" do
       vector = Vector2.new
       vector.should eq(Vector2.new(0.0, 0.0))
@@ -12,6 +12,13 @@ describe Vector2 do
     it "lets you specify x and y" do
       vector = Vector2.new(1.0, 2.0)
       vector.should eq(Vector2.new(1.0, 2.0))
+    end
+  end
+
+  describe ".random" do
+    it "builds a random point around the origin" do
+      vector = Vector2.random(3.0)
+      vector.magnitude.should be_close(3.0, 1.0e-10)
     end
   end
 
@@ -78,6 +85,23 @@ describe Vector2 do
       vector_1 = Vector2.new(3.0, -4.0)
 
       vector_0.max(vector_1).should eq(Vector2.new(3.0, 2.0))
+    end
+  end
+
+  describe "#magnitude" do
+    it "returns the magnitude of the vector" do
+      vector = Vector2.new(3.0, 4.0)
+      vector.magnitude.should(eq(5.0))
+    end
+  end
+
+  describe "#+/-" do
+    it "adds/subtracts vectors" do
+      vector_1 = Vector2.new(-3.0, 4.0)
+      vector_2 = Vector2.new(8.0, 1.0)
+
+      (vector_1 + vector_2).should eq(Vector2.new(5.0, 5.0))
+      (vector_1 - vector_2).should eq(Vector2.new(-11.0, 3.0))
     end
   end
 

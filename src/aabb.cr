@@ -10,8 +10,12 @@ class AABB
     maximum_point == rhs.maximum_point
   end
 
-  def covers?(point)
+  def covers?(point : Vector2)
     minimum_point <= point && point <= maximum_point
+  end
+
+  def covers?(aabb : AABB)
+    minimum_point <= aabb.minimum_point && maximum_point >= aabb.maximum_point
   end
 
   def union(rhs)

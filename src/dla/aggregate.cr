@@ -1,30 +1,32 @@
-module DLA
-  class Aggregate
-    module Grower
-      abstract def new_particle()
-    end
+class DLA::Aggregate
+  module Grower
+    abstract def new_particle(particles : ParticleCollection)
+  end
 
-    getter aabb
-    @grower : Grower
+  module ParticleCollection
+    abstract def <<(particle : Particle)
+    abstract def size
+    abstract def each(&block : Particle -> _)
+    abstract def closest(particle : Particle)
+  end
 
-    def initialize(particles = [Particle.new], @grower = DLA::Grower.new)
-      @aabb = AABB.new
-      @particles = [] of Particle
+  @particles : ParticleCollection
+  @grower : Grower
 
-      particles.each { |particle| add_particle(particle) }
-    end
+  getter aabb
 
-    def size
-      @particles.size
-    end
+  def initialize(@particles = DLA::ParticleCollection.new, @grower = DLA::Grower.new)
+  end
 
-    def grow
-      add_particle(@grower.new_particle)
-    end
+  def size
+    @particles.size
+  end
 
-    private def add_particle(particle)
-      @particles << particle
-      @aabb = @aabb.union(particle.aabb)
-    end
+  def aabb
+    @particles.aabb
+  end
+
+  def grow
+    @particles << @grower.new_particle(@particles)
   end
 end
