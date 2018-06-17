@@ -22,7 +22,7 @@ describe DLA do
   end
 
   # TODO: perform real-life growth checks in an integration test
-  # TODO: pass in a fake grower with a canned new particle
+
   describe "#grow" do
     it "adds a particle to the aggregate" do
       dla = DLA.new
@@ -30,5 +30,33 @@ describe DLA do
 
       dla.size.should eq(2)
     end
+
+    it "updates the bounding box" do
+        dla = DLA.new(
+          grower: FakeGrower.new(
+            Particle.new(center: Vector2.new(1.0, 0.0), radius: 1.0)
+          )
+        )
+
+        dla.grow
+
+        dla.aabb.should eq(
+          AABB.new(
+            minimum_point: Vector2.new(-1.0, -1.0),
+            maximum_point: Vector2.new(2.0, 1.0)
+          )
+        )
+    end
+  end
+end
+
+class FakeGrower
+  include DLA::Grower
+
+  def initialize(@particle : Particle)
+  end
+
+  def new_particle
+    @particle
   end
 end

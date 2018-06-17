@@ -1,7 +1,12 @@
 class DLA
-  getter aabb
+  module Grower
+    abstract def new_particle()
+  end
 
-  def initialize
+  getter aabb
+  @grower : Grower
+
+  def initialize(@grower = ::Grower.new)
     @particles = [] of Particle
     @aabb = AABB.new
 
@@ -13,7 +18,7 @@ class DLA
   end
 
   def grow
-    Particle.new.tap { |particle| add_particle(particle) }
+    add_particle(@grower.new_particle)
   end
 
   private def add_particle(particle)
