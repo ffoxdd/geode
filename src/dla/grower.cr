@@ -29,9 +29,13 @@ class DLA::Grower
   end
 
   private def step
-    @test_particle = @test_particle.step(@overlap) # TODO: improve performance
+    @test_particle = @test_particle.step(step_distance)
     find_closest_particle
     spawn if too_far?
+  end
+
+  private def step_distance
+    closest_distance + @overlap
   end
 
   private def find_closest_particle
