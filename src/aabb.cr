@@ -1,8 +1,8 @@
-class AABB2
+class AABB(V)
   getter minimum_point
   getter maximum_point
 
-  def initialize(@minimum_point=Vector2.new, @maximum_point=Vector2.new)
+  def initialize(@minimum_point=V.new, @maximum_point=V.new)
   end
 
   def ==(rhs)
@@ -10,16 +10,16 @@ class AABB2
     maximum_point == rhs.maximum_point
   end
 
-  def covers?(point : Vector2)
+  def covers?(point : V)
     minimum_point <= point && point <= maximum_point
   end
 
-  def covers?(aabb : AABB2)
+  def covers?(aabb : self)
     minimum_point <= aabb.minimum_point && maximum_point >= aabb.maximum_point
   end
 
   def union(rhs)
-    AABB2.new(
+    self.class.new(
       minimum_point: minimum_point.min(rhs.minimum_point),
       maximum_point: maximum_point.max(rhs.maximum_point),
     )
@@ -34,9 +34,9 @@ class AABB2
   end
 
   def self.degenerate
-    AABB2.new(
-      minimum_point: Vector2.infinite(1),
-      maximum_point: Vector2.infinite(-1),
+    new(
+      minimum_point: V.infinite(1),
+      maximum_point: V.infinite(-1),
     )
   end
 end

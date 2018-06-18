@@ -2,12 +2,12 @@ class DLA::ParticleCollection
   include DLA::Aggregate::ParticleCollection
   include Enumerable(Particle2)
 
-  @aabb : AABB2
+  @aabb : AABB(Vector2)
   @particles : Array(Particle2)
   getter aabb, radius
 
   def initialize(particles = ([] of Particle2))
-    @aabb = AABB2.degenerate
+    @aabb = AABB(Vector2).degenerate
     @particles = [] of Particle2
     @radius = 0.0
 

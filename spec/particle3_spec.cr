@@ -26,18 +26,18 @@ describe Particle3 do
     end
   end
 
-  # describe "#aabb" do
-  #   it "returns the aabb that covers the particle" do
-  #     particle = Particle3.new(center: Vector3.new(1.0, 2.0), radius: 2.0)
-  #
-  #     particle.aabb.should eq(
-  #       AABB2.new(
-  #         minimum_point: Vector3.new(-1.0, 0.0),
-  #         maximum_point: Vector3.new(3.0, 4.0)
-  #       )
-  #     )
-  #   end
-  # end
+  describe "#aabb" do
+    it "returns the aabb that covers the particle" do
+      particle = Particle3.new(center: Vector3.new(1.0, 2.0, 3.0), radius: 2.0)
+
+      particle.aabb.should eq(
+        AABB(Vector3).new(
+          minimum_point: Vector3.new(-1.0, 0.0, 1.0),
+          maximum_point: Vector3.new(3.0, 4.0, 5.0),
+        )
+      )
+    end
+  end
 
   describe "#step" do
     it "returns a particle moved the given amount in a random direction" do

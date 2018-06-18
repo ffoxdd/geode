@@ -10,7 +10,7 @@ describe DLA::ParticleCollection do
     collection.size.should eq(2)
 
     collection.aabb.should eq(
-      AABB2.new(
+      AABB(Vector2).new(
         minimum_point: Vector2.new(-2.0, -2.0),
         maximum_point: Vector2.new(2.0, 2.0),
       )
@@ -27,7 +27,7 @@ describe DLA::ParticleCollection do
     collection.size.should eq(1)
 
     collection.aabb.should eq(
-      AABB2.new(
+      AABB(Vector2).new(
         minimum_point: Vector2.new(1.0, 1.0),
         maximum_point: Vector2.new(5.0, 5.0),
       )

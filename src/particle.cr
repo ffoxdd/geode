@@ -5,20 +5,18 @@ class Particle(V)
   def initialize(@center = V.new, @radius = 1.0)
   end
 
-  # delegate x, y, z, to: @center
-
   def ==(rhs)
     center == rhs.center && radius == rhs.radius
   end
 
-  # def aabb
-  #   AABB2.new(
-  #     minimum_point: Vector2.new(x - radius, y - radius),
-  #     maximum_point: Vector2.new(x + radius, y + radius)
-  #   )
-  # end
+  def aabb
+    AABB(V).new(
+      minimum_point: center - radius,
+      maximum_point: center + radius,
+    )
+  end
 
-  def distance(test_particle : Particle(V))
+  def distance(test_particle : self)
     displacement_vector = @center - test_particle.center
     displacement_vector.magnitude - (@radius + test_particle.radius)
   end
