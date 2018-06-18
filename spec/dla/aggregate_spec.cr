@@ -15,7 +15,7 @@ describe DLA::Aggregate do
       aggregate.size.should eq(2)
 
       aggregate.aabb.should eq(
-        AABB.new(
+        AABB2.new(
           minimum_point: Vector2.new(0.0, 0.0),
           maximum_point: Vector2.new(5.0, 5.0),
         )
@@ -45,7 +45,7 @@ describe DLA::Aggregate do
         aggregate.size.should eq(2)
 
         aggregate.aabb.should eq(
-          AABB.new(
+          AABB2.new(
             minimum_point: Vector2.new(-1.0, -1.0),
             maximum_point: Vector2.new(2.0, 1.0),
           )

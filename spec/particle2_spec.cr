@@ -35,7 +35,7 @@ describe Particle2 do
       particle = Particle2.new(center: Vector2.new(1.0, 2.0), radius: 2.0)
 
       particle.aabb.should eq(
-        AABB.new(
+        AABB2.new(
           minimum_point: Vector2.new(-1.0, 0.0),
           maximum_point: Vector2.new(3.0, 4.0)
         )

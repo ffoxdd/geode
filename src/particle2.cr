@@ -12,7 +12,7 @@ class Particle2
   end
 
   def aabb
-    AABB.new(
+    AABB2.new(
       minimum_point: Vector2.new(x - radius, y - radius),
       maximum_point: Vector2.new(x + radius, y + radius)
     )

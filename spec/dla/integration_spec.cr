@@ -8,7 +8,7 @@ describe DLA do
       100.times { aggregate.grow }
 
       aggregate.aabb.covers?(
-        AABB.new(
+        AABB2.new(
           minimum_point: Vector2.new(-4.0, -4.0),
           maximum_point: Vector2.new(4.0, 4.0),
         )

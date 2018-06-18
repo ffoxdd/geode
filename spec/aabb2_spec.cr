@@ -1,12 +1,12 @@
 require "./spec_helper"
 
-describe AABB do
+describe AABB2 do
   describe ".new" do
     it "uses default values with no arguments" do
-      aabb = AABB.new
+      aabb = AABB2.new
 
       aabb.should eq(
-        AABB.new(
+        AABB2.new(
           minimum_point: Vector2.new(0.0, 0.0),
           maximum_point: Vector2.new(0.0, 0.0),
         )
@@ -16,7 +16,7 @@ describe AABB do
 
   describe "#covers?" do
     it "returns true for points inside the box" do
-      aabb = AABB.new(
+      aabb = AABB2.new(
         minimum_point: Vector2.new(0.0, 0.0),
         maximum_point: Vector2.new(2.0, 2.0),
       )
@@ -35,20 +35,20 @@ describe AABB do
     end
 
     it "can take an aabb" do
-      aabb = AABB.new(
+      aabb = AABB2.new(
         minimum_point: Vector2.new(0.0, 0.0),
         maximum_point: Vector2.new(2.0, 2.0),
       )
 
       aabb.covers?(
-        AABB.new(
+        AABB2.new(
           minimum_point: Vector2.new(1.0, 1.0),
           maximum_point: Vector2.new(2.0, 2.0),
         )
       ).should eq(true)
 
       aabb.covers?(
-        AABB.new(
+        AABB2.new(
           minimum_point: Vector2.new(1.0, 1.0),
           maximum_point: Vector2.new(2.0, 3.0),
         )
@@ -58,18 +58,18 @@ describe AABB do
 
   describe "#union" do
     it "returns the union of the two bounding boxes" do
-      aabb_0 = AABB.new(
+      aabb_0 = AABB2.new(
         minimum_point: Vector2.new(2.0, 0.0),
         maximum_point: Vector2.new(4.0, 4.0),
       )
 
-      aabb_1 = AABB.new(
+      aabb_1 = AABB2.new(
         minimum_point: Vector2.new(1.0, 2.0),
         maximum_point: Vector2.new(3.0, 6.0),
       )
 
       aabb_0.union(aabb_1).should eq(
-        AABB.new(
+        AABB2.new(
           minimum_point: Vector2.new(1.0, 0.0),
           maximum_point: Vector2.new(4.0, 6.0),
         )
@@ -79,7 +79,7 @@ describe AABB do
 
   describe "#size" do
     it "returns a vector representing the width/height" do
-      aabb = AABB.new(
+      aabb = AABB2.new(
         minimum_point: Vector2.new(2.0, 0.0),
         maximum_point: Vector2.new(4.0, 4.0),
       )
@@ -90,7 +90,7 @@ describe AABB do
 
   describe "#center" do
     it "returns the center point of the box" do
-      aabb = AABB.new(
+      aabb = AABB2.new(
         minimum_point: Vector2.new(2.0, 0.0),
         maximum_point: Vector2.new(4.0, 4.0),
       )
