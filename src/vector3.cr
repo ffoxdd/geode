@@ -8,10 +8,6 @@ class Vector3
 
   getter x, y, z
 
-  def self.random(radius)
-    # TODO
-  end
-
   def magnitude
     Math.sqrt(@x**2 + @y**2 + @z**2)
   end
@@ -33,6 +29,20 @@ class Vector3
       Float64::INFINITY * sign,
       Float64::INFINITY * sign,
       Float64::INFINITY * sign,
+    )
+  end
+
+  def self.random(radius)
+    theta = 2 * Math::PI * Random.rand
+    phi = Math.acos((2 * Random.rand) - 1)
+    spherical_coordinates(theta, phi, radius)
+  end
+
+  def self.spherical_coordinates(theta, phi, radius)
+    Vector3.new(
+      radius * Math.cos(theta) * Math.sin(phi),
+      radius * Math.sin(theta) * Math.sin(phi),
+      radius * Math.cos(phi),
     )
   end
 end

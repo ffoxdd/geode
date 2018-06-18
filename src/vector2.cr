@@ -8,15 +8,6 @@ class Vector2
 
   getter x, y
 
-  def self.random(radius)
-    theta = Random.rand * 2 * Math::PI
-
-    self.new(
-      Math.sin(theta) * radius,
-      Math.cos(theta) * radius,
-    )
-  end
-
   def magnitude
     Math.hypot(@x, @y)
   end
@@ -35,5 +26,14 @@ class Vector2
 
   def self.infinite(sign)
     Vector2.new(Float64::INFINITY * sign, Float64::INFINITY * sign)
+  end
+
+  def self.random(radius)
+    theta = Random.rand * 2 * Math::PI
+
+    self.new(
+      Math.sin(theta) * radius,
+      Math.cos(theta) * radius,
+    )
   end
 end

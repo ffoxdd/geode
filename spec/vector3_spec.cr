@@ -13,10 +13,9 @@ describe Vector3 do
     end
   end
 
-  pending ".random" do
+  describe ".random" do
     it "builds a random point around the origin" do
-      # vector = Vector3.random(3.0)
-      # vector.magnitude.should be_close(3.0, 1.0e-10)
+      Vector3.random(1.0).magnitude.should be_close(1.0, 1.0e-10)
     end
   end
 
