@@ -1,14 +1,14 @@
 class DLA::ParticleCollection
   include DLA::Aggregate::ParticleCollection
-  include Enumerable(Particle)
+  include Enumerable(Particle2)
 
   @aabb : AABB
-  @particles : Array(Particle)
+  @particles : Array(Particle2)
   getter aabb, radius
 
-  def initialize(particles = ([] of Particle))
+  def initialize(particles = ([] of Particle2))
     @aabb = AABB.degenerate
-    @particles = [] of Particle
+    @particles = [] of Particle2
     @radius = 0.0
 
     particles.each { |particle| self << particle }
@@ -16,7 +16,7 @@ class DLA::ParticleCollection
 
   delegate size, to: @particles
 
-  def <<(particle : Particle)
+  def <<(particle : Particle2)
     @particles << particle
     @aabb = @aabb.union(particle.aabb)
     @radius = Math.max(@radius, particle.magnitude)
@@ -26,7 +26,7 @@ class DLA::ParticleCollection
     @particles.each { |particle| yield particle }
   end
 
-  def closest(test_particle : Particle)
+  def closest(test_particle : Particle2)
     min_by { |particle| particle.distance(test_particle) }
   end
 end

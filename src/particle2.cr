@@ -1,4 +1,4 @@
-class Particle
+class Particle2
   getter center
   getter radius
 
@@ -18,7 +18,7 @@ class Particle
     )
   end
 
-  def distance(test_particle : Particle)
+  def distance(test_particle : Particle2)
     displacement_vector = @center - test_particle.center
     displacement_vector.magnitude - (@radius + test_particle.radius)
   end

@@ -4,10 +4,10 @@ class DLA::Aggregate
   end
 
   module ParticleCollection
-    abstract def <<(particle : Particle)
+    abstract def <<(particle : Particle2)
     abstract def size
     abstract def each(&block : Particle -> _)
-    abstract def closest(particle : Particle)
+    abstract def closest(particle : Particle2)
     abstract def radius
   end
 
@@ -28,6 +28,6 @@ class DLA::Aggregate
   end
 
   private def default_particle_collection
-    DLA::ParticleCollection.new(particles: [Particle.new])
+    DLA::ParticleCollection.new(particles: [Particle2.new])
   end
 end

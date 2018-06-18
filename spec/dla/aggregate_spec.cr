@@ -6,8 +6,8 @@ describe DLA::Aggregate do
       aggregate = DLA::Aggregate.new(
         particles: DLA::ParticleCollection.new(
           particles: [
-            Particle.new(center: Vector2.new(1.0, 1.0), radius: 1.0),
-            Particle.new(center: Vector2.new(3.0, 3.0), radius: 2.0),
+            Particle2.new(center: Vector2.new(1.0, 1.0), radius: 1.0),
+            Particle2.new(center: Vector2.new(3.0, 3.0), radius: 2.0),
           ]
         )
       )
@@ -23,8 +23,8 @@ describe DLA::Aggregate do
 
       yielded_particles(aggregate).should eq(
         [
-          Particle.new(center: Vector2.new(1.0, 1.0), radius: 1.0),
-          Particle.new(center: Vector2.new(3.0, 3.0), radius: 2.0),
+          Particle2.new(center: Vector2.new(1.0, 1.0), radius: 1.0),
+          Particle2.new(center: Vector2.new(3.0, 3.0), radius: 2.0),
         ]
       )
     end
@@ -33,10 +33,10 @@ describe DLA::Aggregate do
   describe "#grow" do
     it "adds a particle to the aggregate" do
         aggregate = DLA::Aggregate.new(
-          particles: DLA::ParticleCollection.new(particles: [Particle.new]),
+          particles: DLA::ParticleCollection.new(particles: [Particle2.new]),
 
           grower: FakeGrower.new(
-            Particle.new(center: Vector2.new(1.0, 0.0), radius: 1.0)
+            Particle2.new(center: Vector2.new(1.0, 0.0), radius: 1.0)
           ),
         )
 
@@ -57,7 +57,7 @@ end
 class FakeGrower
   include DLA::Aggregate::Grower
 
-  def initialize(@particle : Particle)
+  def initialize(@particle : Particle2)
   end
 
   def new_particle(particles, spawn_radius, kill_radius)
@@ -66,7 +66,7 @@ class FakeGrower
 end
 
 def yielded_particles(aggregate)
-  result = [] of Particle
+  result = [] of Particle2
   aggregate.each { |particle| result << particle }
   result
 end
