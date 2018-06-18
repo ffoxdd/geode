@@ -103,6 +103,13 @@ describe Vector2 do
       (vector_1 + vector_2).should eq(Vector2.new(5.0, 5.0))
       (vector_1 - vector_2).should eq(Vector2.new(-11.0, 3.0))
     end
+
+    it "adds/subtracts scalars" do
+      vector = Vector2.new(1.0, 2.0)
+
+      (vector + 3.0).should eq(Vector2.new(4.0, 5.0))
+      (vector - 2.0).should eq(Vector2.new(-1.0, 0.0))
+    end
   end
 
   describe "#*/" do

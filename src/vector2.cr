@@ -36,12 +36,20 @@ class Vector2
       component_test(rhs) { |c0, c1| c0 >= c1 }
     end
 
-    def +(rhs)
+    def +(rhs : Vector2)
       component_zip_map(rhs) { |c0, c1| c0 + c1 }
     end
 
-    def -(rhs)
+    def -(rhs : Vector2)
       component_zip_map(rhs) { |c0, c1| c0 - c1 }
+    end
+
+    def +(scalar)
+      component_map { |c| c + scalar }
+    end
+
+    def -(scalar)
+      component_map { |c| c - scalar }
     end
 
     def *(scalar)
