@@ -13,6 +13,8 @@ class DLA::ParticleCollection
     particles.each { |particle| self << particle }
   end
 
+  delegate size, to: @particles
+
   def <<(particle : Particle)
     @particles << particle
     @aabb = @aabb.union(particle.aabb)
@@ -20,10 +22,6 @@ class DLA::ParticleCollection
 
   def each(&block)
     @particles.each { |particle| yield particle }
-  end
-
-  def size
-    @particles.size
   end
 
   def closest(test_particle : Particle)

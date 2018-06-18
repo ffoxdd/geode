@@ -13,18 +13,10 @@ class DLA::Aggregate
   @particles : ParticleCollection
   @grower : Grower
 
-  getter aabb
-
   def initialize(@particles = default_particle_collection, @grower = DLA::Grower.new)
   end
 
-  def size
-    @particles.size
-  end
-
-  def aabb
-    @particles.aabb
-  end
+  delegate size, aabb, to: @particles
 
   def grow
     @particles << @grower.new_particle(@particles)

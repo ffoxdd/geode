@@ -21,7 +21,7 @@ class AABB
   def union(rhs)
     AABB.new(
       minimum_point: minimum_point.min(rhs.minimum_point),
-      maximum_point: maximum_point.max(rhs.maximum_point)
+      maximum_point: maximum_point.max(rhs.maximum_point),
     )
   end
 end
