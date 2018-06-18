@@ -120,14 +120,4 @@ describe Vector2 do
       (vector / 2.0).should eq(Vector2.new(1.0, -2.0))
     end
   end
-
-  describe "#transform" do
-    it "applies a scale then an offset to the vector" do
-      vector = Vector2.new(2.0, -4.0)
-
-      vector.transform(scale: 2.0, offset: Vector2.new(1.0, 2.0)).should eq(
-        Vector2.new(5.0, -6.0)
-      )
-    end
-  end
 end

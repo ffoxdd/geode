@@ -35,7 +35,7 @@ class DLA::SVGFile
 
   private def transform(particle : Particle2)
     Particle2.new(
-      center: particle.center.transform(@scale, offset),
+      center: particle.center * @scale + offset,
       radius: particle.radius * @scale,
     )
   end

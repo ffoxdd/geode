@@ -60,10 +60,6 @@ class Vector2
       component_map { |c| c / scalar }
     end
 
-    def transform(scale, offset : Vector2)
-      self * scale + offset
-    end
-
     def min(rhs)
       component_zip_map(rhs) { |c0, c1| Math.min(c0, c1) }
     end
