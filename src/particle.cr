@@ -5,7 +5,7 @@ class Particle
   def initialize(@center = Vector2.new, @radius = 1.0)
   end
 
-  delegate x, y, magnitude, to: @center
+  delegate x, y, to: @center
 
   def ==(rhs)
     center == rhs.center && radius == rhs.radius
@@ -28,5 +28,9 @@ class Particle
       center: @center + Vector2.random(distance),
       radius: @radius,
     )
+  end
+
+  def magnitude
+    @center.magnitude + @radius
   end
 end

@@ -5,8 +5,8 @@ authors:
   - Dan Fox <dhf2001@gmail.com>
 
 targets:
-  geode:
-    main: src/geode.cr
+  dla-svg:
+    main: src/command/dla_svg.cr
 
 crystal: 0.22.0
 

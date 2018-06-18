@@ -25,6 +25,14 @@ class AABB
     )
   end
 
+  def size
+    maximum_point - minimum_point
+  end
+
+  def center
+    minimum_point + (size / 2)
+  end
+
   def self.degenerate
     AABB.new(
       minimum_point: Vector2.infinite(1),

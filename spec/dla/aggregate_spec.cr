@@ -20,6 +20,13 @@ describe DLA::Aggregate do
           maximum_point: Vector2.new(5.0, 5.0),
         )
       )
+
+      yielded_particles(aggregate).should eq(
+        [
+          Particle.new(center: Vector2.new(1.0, 1.0), radius: 1.0),
+          Particle.new(center: Vector2.new(3.0, 3.0), radius: 2.0),
+        ]
+      )
     end
   end
 
@@ -53,7 +60,13 @@ class FakeGrower
   def initialize(@particle : Particle)
   end
 
-  def new_particle(particles : DLA::Aggregate::ParticleCollection)
+  def new_particle(particles, spawn_radius, kill_radius)
     @particle
   end
+end
+
+def yielded_particles(aggregate)
+  result = [] of Particle
+  aggregate.each { |particle| result << particle }
+  result
 end

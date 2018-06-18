@@ -37,19 +37,31 @@ class Vector2
     end
 
     def +(rhs)
-      component_map(rhs) { |c0, c1| c0 + c1 }
+      component_zip_map(rhs) { |c0, c1| c0 + c1 }
     end
 
     def -(rhs)
-      component_map(rhs) { |c0, c1| c0 - c1 }
+      component_zip_map(rhs) { |c0, c1| c0 - c1 }
+    end
+
+    def *(scalar)
+      component_map { |c| c * scalar }
+    end
+
+    def /(scalar)
+      component_map { |c| c / scalar }
+    end
+
+    def transform(scale, offset : Vector2)
+      self * scale + offset
     end
 
     def min(rhs)
-      component_map(rhs) { |c0, c1| Math.min(c0, c1) }
+      component_zip_map(rhs) { |c0, c1| Math.min(c0, c1) }
     end
 
     def max(rhs)
-      component_map(rhs) { |c0, c1| Math.max(c0, c1) }
+      component_zip_map(rhs) { |c0, c1| Math.max(c0, c1) }
     end
 
     def magnitude
@@ -60,7 +72,11 @@ class Vector2
       yield(@x, rhs.x) && yield(@y, rhs.y)
     end
 
-    private def component_map(rhs)
+    private def component_map
+      Vector2.new(yield(@x), yield(@y))
+    end
+
+    private def component_zip_map(rhs)
       Vector2.new(yield(@x, rhs.x), yield(@y, rhs.y))
     end
 

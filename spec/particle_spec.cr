@@ -24,9 +24,9 @@ describe Particle do
   end
 
   describe "#magnitude" do
-    it "delegates magnitude to the center point" do
-      particle = Particle.new(center: Vector2.new(3.0, 4.0))
-      particle.magnitude.should eq(5.0)
+    it "returns the magnitude of the center point plus the radius" do
+      particle = Particle.new(center: Vector2.new(3.0, 4.0), radius: 1.0)
+      particle.magnitude.should eq(6.0)
     end
   end
 
@@ -48,7 +48,7 @@ describe Particle do
       particle = Particle.new
       stepped_particle = particle.step(3.0)
 
-      stepped_particle.magnitude.should be_close(3.0, 1.0e-10)
+      stepped_particle.magnitude.should be_close(4.0, 1.0e-10)
     end
   end
 

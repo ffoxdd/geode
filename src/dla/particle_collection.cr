@@ -4,11 +4,12 @@ class DLA::ParticleCollection
 
   @aabb : AABB
   @particles : Array(Particle)
-  getter aabb
+  getter aabb, radius
 
   def initialize(particles = ([] of Particle))
     @aabb = AABB.degenerate
     @particles = [] of Particle
+    @radius = 0.0
 
     particles.each { |particle| self << particle }
   end
@@ -18,6 +19,7 @@ class DLA::ParticleCollection
   def <<(particle : Particle)
     @particles << particle
     @aabb = @aabb.union(particle.aabb)
+    @radius = Math.max(@radius, particle.magnitude)
   end
 
   def each(&block)

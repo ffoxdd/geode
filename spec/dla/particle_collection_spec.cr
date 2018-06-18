@@ -15,6 +15,8 @@ describe DLA::ParticleCollection do
         maximum_point: Vector2.new(2.0, 2.0),
       )
     )
+
+    collection.radius.should be_close(2.414213, 1e-5)
   end
 
   it "can be initialized with starting particles" do

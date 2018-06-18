@@ -76,4 +76,26 @@ describe AABB do
       )
     end
   end
+
+  describe "#size" do
+    it "returns a vector representing the width/height" do
+      aabb = AABB.new(
+        minimum_point: Vector2.new(2.0, 0.0),
+        maximum_point: Vector2.new(4.0, 4.0),
+      )
+
+      aabb.size.should eq(Vector2.new(2.0, 4.0))
+    end
+  end
+
+  describe "#center" do
+    it "returns the center point of the box" do
+      aabb = AABB.new(
+        minimum_point: Vector2.new(2.0, 0.0),
+        maximum_point: Vector2.new(4.0, 4.0),
+      )
+
+      aabb.center.should eq(Vector2.new(3.0, 2.0))
+    end
+  end
 end
