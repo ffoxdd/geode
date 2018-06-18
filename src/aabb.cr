@@ -24,4 +24,11 @@ class AABB
       maximum_point: maximum_point.max(rhs.maximum_point),
     )
   end
+
+  def self.degenerate
+    AABB.new(
+      minimum_point: Vector2.infinite(1),
+      maximum_point: Vector2.infinite(-1),
+    )
+  end
 end

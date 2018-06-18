@@ -63,4 +63,8 @@ class Vector2
     private def component_map(rhs)
       Vector2.new(yield(@x, rhs.x), yield(@y, rhs.y))
     end
+
+    def self.infinite(sign)
+      Vector2.new(Float64::INFINITY * sign, Float64::INFINITY * sign)
+    end
 end
