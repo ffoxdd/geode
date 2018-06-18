@@ -15,7 +15,7 @@ class DLA::Aggregate
 
   getter aabb
 
-  def initialize(@particles = DLA::ParticleCollection.new, @grower = DLA::Grower.new)
+  def initialize(@particles = default_particle_collection, @grower = DLA::Grower.new)
   end
 
   def size
@@ -28,5 +28,9 @@ class DLA::Aggregate
 
   def grow
     @particles << @grower.new_particle(@particles)
+  end
+
+  private def default_particle_collection
+    DLA::ParticleCollection.new(particles: [Particle.new])
   end
 end
