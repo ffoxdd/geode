@@ -26,15 +26,15 @@ class DLA::SVGFile
   private def build_particle(xml, particle)
     xml.element(
       "circle",
-      cx: particle.x,
-      cy: particle.y,
+      cx: particle.center.x,
+      cy: particle.center.y,
       r: particle.radius,
       fill: "black",
     )
   end
 
-  private def transform(particle : Particle2)
-    Particle2.new(
+  private def transform(particle : Particle(Vector2))
+    Particle(Vector2).new(
       center: particle.center * @scale + offset,
       radius: particle.radius * @scale,
     )

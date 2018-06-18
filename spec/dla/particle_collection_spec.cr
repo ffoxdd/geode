@@ -4,8 +4,8 @@ describe DLA::ParticleCollection do
   it "adds particles to the collection and returns information about them" do
     collection = DLA::ParticleCollection.new
 
-    collection << Particle2.new(center: Vector2.new(-1.0, -1.0), radius: 1.0)
-    collection << Particle2.new(center: Vector2.new(1.0, 1.0), radius: 1.0)
+    collection << Particle(Vector2).new(center: Vector2.new(-1.0, -1.0), radius: 1.0)
+    collection << Particle(Vector2).new(center: Vector2.new(1.0, 1.0), radius: 1.0)
 
     collection.size.should eq(2)
 
@@ -21,7 +21,7 @@ describe DLA::ParticleCollection do
 
   it "can be initialized with starting particles" do
     collection = DLA::ParticleCollection.new(
-      particles: [Particle2.new(center: Vector2.new(3.0, 3.0), radius: 2.0)]
+      particles: [Particle(Vector2).new(center: Vector2.new(3.0, 3.0), radius: 2.0)]
     )
 
     collection.size.should eq(1)
@@ -36,8 +36,8 @@ describe DLA::ParticleCollection do
 
   it "can iterate over the particles" do
     particles = [
-      Particle2.new(center: Vector2.new(1.0, 1.0), radius: 1.0),
-      Particle2.new(center: Vector2.new(2.0, 2.0), radius: 2.0),
+      Particle(Vector2).new(center: Vector2.new(1.0, 1.0), radius: 1.0),
+      Particle(Vector2).new(center: Vector2.new(2.0, 2.0), radius: 2.0),
     ]
 
     collection = DLA::ParticleCollection.new(particles: particles)
@@ -48,13 +48,13 @@ describe DLA::ParticleCollection do
   describe "#closest" do
     it "returns the closest particle to the test particle" do
       particles = [
-        Particle2.new(center: Vector2.new(1.0, 1.0), radius: 1.0),
-        Particle2.new(center: Vector2.new(2.0, 2.0), radius: 2.0),
+        Particle(Vector2).new(center: Vector2.new(1.0, 1.0), radius: 1.0),
+        Particle(Vector2).new(center: Vector2.new(2.0, 2.0), radius: 2.0),
       ]
 
       collection = DLA::ParticleCollection.new(particles: particles)
 
-      test_particle = Particle2.new(center: Vector2.new(-1.0, -1.0), radius: 1.0)
+      test_particle = Particle(Vector2).new(center: Vector2.new(-1.0, -1.0), radius: 1.0)
 
       collection.closest(test_particle).should eq(particles[0])
     end
@@ -62,7 +62,7 @@ describe DLA::ParticleCollection do
 end
 
 def yielded_particles(collection : DLA::ParticleCollection)
-  result = [] of Particle2
+  result = [] of Particle(Vector2)
   collection.each { |particle| result << particle }
   result
 end

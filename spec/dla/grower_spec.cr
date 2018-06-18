@@ -2,7 +2,7 @@ require "../spec_helper"
 
 describe DLA::Grower do
   it "returns a new particle to be added to the aggregate" do
-    particles = DLA::ParticleCollection.new(particles: [Particle2.new])
+    particles = DLA::ParticleCollection.new(particles: [Particle(Vector2).new])
 
     grower = DLA::Grower.new(particle_radius: 1.0, overlap: 0.5)
 
