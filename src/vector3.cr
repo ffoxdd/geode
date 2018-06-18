@@ -1,4 +1,5 @@
 require "math"
+require "./vector"
 
 class Vector3
   include Vector(self)

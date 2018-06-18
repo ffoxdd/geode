@@ -3,13 +3,8 @@ require "./spec_helper"
 describe Particle2 do
   describe ".new" do
     it "returns a particle at the origin with radius 1" do
-      particle = Particle2.new
-
-      particle.should eq(
-        Particle2.new(
-          center: Vector2.new(0.0, 0.0),
-          radius: 1.0
-        )
+      Particle2.new.should eq(
+        Particle2.new(center: Vector2.new(0.0, 0.0), radius: 1.0)
       )
     end
   end
