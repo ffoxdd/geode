@@ -22,7 +22,7 @@ class DLA::ParticleCollection
     @radius = Math.max(@radius, particle.magnitude)
   end
 
-  def each(&block)
+  def each
     @particles.each { |particle| yield particle }
   end
 

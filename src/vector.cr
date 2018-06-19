@@ -60,13 +60,13 @@ module Vector
     )
   end
 
-  private def test(rhs, &block : Proc(Float64, Float64, Bool))
-    zip(rhs).all?(&block)
+  private def test(rhs)
+    zip(rhs).all? { |c1, c2| yield(c1, c2) }
   end
 
-  private def map(&block : Float64 -> Float64)
+  private def map()
     self.class.new(
-      @components.map(&block)
+      @components.map { |c| yield c }
     )
   end
 
@@ -74,9 +74,9 @@ module Vector
     @components.map_with_index { |c, i| {c, rhs[i]} }
   end
 
-  private def zip_map(rhs, &block : Proc(Float64, Float64, Float64))
+  private def zip_map(rhs)
     self.class.new(
-      zip(rhs).map(&block)
+      zip(rhs).map { |c1, c2| yield(c1, c2) }
     )
   end
 end

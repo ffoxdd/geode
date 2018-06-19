@@ -19,7 +19,7 @@ class DLA::SVGFile
     end
   end
 
-  private def each(&block)
+  private def each
     @aggregate.each { |particle| yield transform(particle) }
   end
 

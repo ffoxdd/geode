@@ -1,8 +1,6 @@
 class DLA::Grower
   include DLA::Aggregate::Grower
 
-  @particles : DLA::Aggregate::ParticleCollection | Nil
-
   def initialize(@particle_radius = 1.0, @overlap = 0.2)
   end
 
