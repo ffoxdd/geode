@@ -1,6 +1,6 @@
 require "../**"
 
-aggregate = DLA::Aggregate.new
+aggregate = DLA::Aggregate(Vector2).new
 
 1000.times { aggregate.grow }
 

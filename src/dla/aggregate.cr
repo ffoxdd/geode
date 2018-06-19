@@ -1,20 +1,21 @@
-class DLA::Aggregate
-  module Grower
-    abstract def new_particle(particles : ParticleCollection, spawn_radius, kill_radius)
+class DLA::Aggregate(V)
+  module Grower(V)
+    abstract def new_particle(particles : ParticleCollection(V),
+      spawn_radius, kill_radius)
   end
 
-  module ParticleCollection
-    abstract def <<(particle : Particle(Vector2))
+  module ParticleCollection(V)
+    abstract def <<(particle : Particle(V))
     abstract def size
-    abstract def each(&block : Particle -> _)
-    abstract def closest(particle : Particle(Vector2))
+    abstract def each(&block : Particle(V) -> _)
+    abstract def closest(particle : Particle(V))
     abstract def radius
   end
 
-  @particles : ParticleCollection
-  @grower : Grower
+  @particles : ParticleCollection(V)
+  @grower : Grower(V)
 
-  def initialize(@particles = default_particle_collection, @grower = DLA::Grower.new)
+  def initialize(@particles = seed_particle, @grower = DLA::Grower(V).new)
   end
 
   delegate size, aabb, each, to: @particles
@@ -27,7 +28,7 @@ class DLA::Aggregate
     )
   end
 
-  private def default_particle_collection
-    DLA::ParticleCollection.new(particles: [Particle(Vector2).new])
+  private def seed_particle
+    DLA::ParticleCollection(V).new(particles: [Particle(V).new])
   end
 end

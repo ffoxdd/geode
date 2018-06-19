@@ -1,11 +1,16 @@
 require "../spec_helper"
 
-describe DLA::ParticleCollection do
+describe DLA::ParticleCollection(Vector2) do
   it "adds particles to the collection and returns information about them" do
-    collection = DLA::ParticleCollection.new
+    collection = DLA::ParticleCollection(Vector2).new
 
-    collection << Particle(Vector2).new(center: Vector2.new({-1.0, -1.0}), radius: 1.0)
-    collection << Particle(Vector2).new(center: Vector2.new({1.0, 1.0}), radius: 1.0)
+    collection << Particle(Vector2).new(
+      center: Vector2.new({-1.0, -1.0}), radius: 1.0
+    )
+
+    collection << Particle(Vector2).new(
+      center: Vector2.new({1.0, 1.0}), radius: 1.0
+    )
 
     collection.size.should eq(2)
 
@@ -20,8 +25,10 @@ describe DLA::ParticleCollection do
   end
 
   it "can be initialized with starting particles" do
-    collection = DLA::ParticleCollection.new(
-      particles: [Particle(Vector2).new(center: Vector2.new({3.0, 3.0}), radius: 2.0)]
+    collection = DLA::ParticleCollection(Vector2).new(
+      particles: [
+        Particle(Vector2).new(center: Vector2.new({3.0, 3.0}), radius: 2.0)
+      ]
     )
 
     collection.size.should eq(1)
@@ -40,7 +47,7 @@ describe DLA::ParticleCollection do
       Particle(Vector2).new(center: Vector2.new({2.0, 2.0}), radius: 2.0),
     ]
 
-    collection = DLA::ParticleCollection.new(particles: particles)
+    collection = DLA::ParticleCollection(Vector2).new(particles: particles)
 
     yielded_particles(collection).should eq(particles)
   end
@@ -52,7 +59,7 @@ describe DLA::ParticleCollection do
         Particle(Vector2).new(center: Vector2.new({2.0, 2.0}), radius: 2.0),
       ]
 
-      collection = DLA::ParticleCollection.new(particles: particles)
+      collection = DLA::ParticleCollection(Vector2).new(particles: particles)
 
       test_particle = Particle(Vector2).new(center: Vector2.new({-1.0, -1.0}), radius: 1.0)
 
@@ -61,7 +68,7 @@ describe DLA::ParticleCollection do
   end
 end
 
-def yielded_particles(collection : DLA::ParticleCollection)
+def yielded_particles(collection : DLA::ParticleCollection(Vector2))
   result = [] of Particle(Vector2)
   collection.each { |particle| result << particle }
   result

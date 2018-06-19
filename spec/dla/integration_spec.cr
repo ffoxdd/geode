@@ -3,7 +3,7 @@ require "../spec_helper"
 describe DLA do
   describe "Basic growth" do
     it "grows particles and adds them to the aggregate" do
-      aggregate = DLA::Aggregate.new
+      aggregate = DLA::Aggregate(Vector2).new
 
       100.times { aggregate.grow }
 

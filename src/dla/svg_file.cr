@@ -1,7 +1,7 @@
 require "xml"
 
 class DLA::SVGFile
-  def initialize(@aggregate : DLA::Aggregate, @scale = 10, @padding = 0.2,
+  def initialize(@aggregate : DLA::Aggregate(Vector2), @scale = 10, @padding = 0.2,
     @filename = "./data/test.svg")
   end
 

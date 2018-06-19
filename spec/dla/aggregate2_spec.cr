@@ -1,16 +1,16 @@
 require "../spec_helper"
 
-describe DLA::Aggregate do
+describe DLA::Aggregate(Vector2) do
   describe "#initialize" do
     it "can be given existing particles" do
-      aggregate = DLA::Aggregate.new(
-        particles: DLA::ParticleCollection.new(
-          particles: [
-            Particle(Vector2).new(center: Vector2.new({1.0, 1.0}), radius: 1.0),
-            Particle(Vector2).new(center: Vector2.new({3.0, 3.0}), radius: 2.0),
-          ]
-        )
+      particle_collection = DLA::ParticleCollection(Vector2).new(
+        particles: [
+          Particle(Vector2).new(center: Vector2.new({1.0, 1.0}), radius: 1.0),
+          Particle(Vector2).new(center: Vector2.new({3.0, 3.0}), radius: 2.0),
+        ]
       )
+
+      aggregate = DLA::Aggregate(Vector2).new(particles: particle_collection)
 
       aggregate.size.should eq(2)
 
@@ -32,8 +32,12 @@ describe DLA::Aggregate do
 
   describe "#grow" do
     it "adds a particle to the aggregate" do
-        aggregate = DLA::Aggregate.new(
-          particles: DLA::ParticleCollection.new(particles: [Particle(Vector2).new]),
+        particle_collection = DLA::ParticleCollection(Vector2).new(
+          particles: [Particle(Vector2).new]
+        )
+
+        aggregate = DLA::Aggregate(Vector2).new(
+          particles: particle_collection,
 
           grower: FakeGrower.new(
             Particle(Vector2).new(center: Vector2.new({1.0, 0.0}), radius: 1.0)
@@ -55,7 +59,7 @@ describe DLA::Aggregate do
 end
 
 class FakeGrower
-  include DLA::Aggregate::Grower
+  include DLA::Aggregate::Grower(Vector2)
 
   def initialize(@particle : Particle(Vector2))
   end

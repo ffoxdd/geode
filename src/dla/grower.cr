@@ -1,11 +1,11 @@
-class DLA::Grower
-  include DLA::Aggregate::Grower
+class DLA::Grower(V)
+  include DLA::Aggregate::Grower(V)
 
   def initialize(@particle_radius = 1.0, @overlap = 0.2)
   end
 
   def new_particle(particles, spawn_radius, kill_radius)
-    Context.new(
+    Context(V).new(
       particles: particles,
       particle_radius: @particle_radius,
       spawn_radius: spawn_radius,
@@ -14,14 +14,14 @@ class DLA::Grower
     ).new_particle
   end
 
-  class Context
-    @particles : DLA::Aggregate::ParticleCollection
+  class Context(V)
+    @particles : DLA::Aggregate::ParticleCollection(V)
 
     def initialize(@particles, @particle_radius = 1.0, @spawn_radius = 10.0,
       @kill_radius = 20.0, @overlap = 0.2)
 
-      @test_particle = Particle(Vector2).new
-      @closest_particle = Particle(Vector2).new
+      @test_particle = Particle(V).new
+      @closest_particle = Particle(V).new
     end
 
     def new_particle
@@ -35,7 +35,7 @@ class DLA::Grower
     end
 
     private def spawn
-      @test_particle = Particle(Vector2).new.step(@spawn_radius)
+      @test_particle = Particle(V).new.step(@spawn_radius)
       find_closest_particle
     end
 
