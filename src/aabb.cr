@@ -1,4 +1,4 @@
-class AABB(V)
+struct AABB(V)
   getter minimum_point
   getter maximum_point
 

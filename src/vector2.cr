@@ -1,7 +1,7 @@
 require "math"
 require "./vector"
 
-class Vector2
+struct Vector2
   include Vector(self)
 
   def initialize(@x = 0.0, @y = 0.0)

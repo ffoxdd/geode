@@ -1,4 +1,4 @@
-class Particle(V)
+struct Particle(V)
   getter center
   getter radius
 
