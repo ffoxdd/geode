@@ -26,8 +26,8 @@ class DLA::SVGFile
   private def build_particle(xml, particle)
     xml.element(
       "circle",
-      cx: particle.center.x,
-      cy: particle.center.y,
+      cx: particle.center[0],
+      cy: particle.center[1],
       r: particle.radius,
       fill: "black",
     )
@@ -45,15 +45,15 @@ class DLA::SVGFile
   end
 
   private def origin
-    Vector2.new(width, height) / 2
+    Vector2.new({width, height}) / 2
   end
 
   private def width
-    viewport_size.x
+    viewport_size[0]
   end
 
   private def height
-    viewport_size.y
+    viewport_size[1]
   end
 
   private def viewport_size

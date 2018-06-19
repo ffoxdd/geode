@@ -1,4 +1,7 @@
 module Vector(V)
+  getter components
+  delegate :[], to: @components
+
   def ==(rhs)
     component_test(rhs) { |c0, c1| c0 == c1 }
   end
@@ -49,5 +52,25 @@ module Vector(V)
 
   def max(rhs)
     component_zip_map(rhs) { |c0, c1| Math.max(c0, c1) }
+  end
+
+  def magnitude
+    Math.sqrt(@components.map { |c| c ** 2 }.sum)
+  end
+
+  private def component_test(rhs, &block : Proc(Float64, Float64, Bool))
+    zip(rhs).all?(&block)
+  end
+
+  private def component_map(&block : Float64 -> Float64)
+    self.class.new(@components.map(&block))
+  end
+
+  private def component_zip_map(rhs, &block : Proc(Float64, Float64, Float64))
+    self.class.new(zip(rhs).map(&block))
+  end
+
+  private def zip(rhs)
+    @components.map_with_index { |c, i| {c, rhs[i]} }
   end
 end

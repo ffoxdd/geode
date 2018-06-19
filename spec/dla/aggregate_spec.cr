@@ -6,8 +6,8 @@ describe DLA::Aggregate do
       aggregate = DLA::Aggregate.new(
         particles: DLA::ParticleCollection.new(
           particles: [
-            Particle(Vector2).new(center: Vector2.new(1.0, 1.0), radius: 1.0),
-            Particle(Vector2).new(center: Vector2.new(3.0, 3.0), radius: 2.0),
+            Particle(Vector2).new(center: Vector2.new({1.0, 1.0}), radius: 1.0),
+            Particle(Vector2).new(center: Vector2.new({3.0, 3.0}), radius: 2.0),
           ]
         )
       )
@@ -16,15 +16,15 @@ describe DLA::Aggregate do
 
       aggregate.aabb.should eq(
         AABB(Vector2).new(
-          minimum_point: Vector2.new(0.0, 0.0),
-          maximum_point: Vector2.new(5.0, 5.0),
+          minimum_point: Vector2.new({0.0, 0.0}),
+          maximum_point: Vector2.new({5.0, 5.0}),
         )
       )
 
       yielded_particles(aggregate).should eq(
         [
-          Particle(Vector2).new(center: Vector2.new(1.0, 1.0), radius: 1.0),
-          Particle(Vector2).new(center: Vector2.new(3.0, 3.0), radius: 2.0),
+          Particle(Vector2).new(center: Vector2.new({1.0, 1.0}), radius: 1.0),
+          Particle(Vector2).new(center: Vector2.new({3.0, 3.0}), radius: 2.0),
         ]
       )
     end
@@ -36,7 +36,7 @@ describe DLA::Aggregate do
           particles: DLA::ParticleCollection.new(particles: [Particle(Vector2).new]),
 
           grower: FakeGrower.new(
-            Particle(Vector2).new(center: Vector2.new(1.0, 0.0), radius: 1.0)
+            Particle(Vector2).new(center: Vector2.new({1.0, 0.0}), radius: 1.0)
           ),
         )
 
@@ -46,8 +46,8 @@ describe DLA::Aggregate do
 
         aggregate.aabb.should eq(
           AABB(Vector2).new(
-            minimum_point: Vector2.new(-1.0, -1.0),
-            maximum_point: Vector2.new(2.0, 1.0),
+            minimum_point: Vector2.new({-1.0, -1.0}),
+            maximum_point: Vector2.new({2.0, 1.0}),
           )
         )
     end

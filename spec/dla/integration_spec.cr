@@ -9,8 +9,8 @@ describe DLA do
 
       aggregate.aabb.covers?(
         AABB(Vector2).new(
-          minimum_point: Vector2.new(-4.0, -4.0),
-          maximum_point: Vector2.new(4.0, 4.0),
+          minimum_point: Vector2.new({-4.0, -4.0}),
+          maximum_point: Vector2.new({4.0, 4.0}),
         )
       ).should be_true
     end
