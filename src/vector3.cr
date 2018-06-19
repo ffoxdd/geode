@@ -2,13 +2,13 @@ require "math"
 require "./vector"
 
 struct Vector3
-  include Vector(self)
+  include Vector
 
   def initialize(@components = {0.0, 0.0, 0.0})
   end
 
   def self.infinite(sign)
-    Vector3.new(
+    new(
       Float64::INFINITY * sign,
       Float64::INFINITY * sign,
       Float64::INFINITY * sign,
