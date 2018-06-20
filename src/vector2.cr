@@ -17,7 +17,7 @@ class Vector2
   def self.random(radius)
     theta = Random.rand * 2 * Math::PI
 
-    self.new({
+    new({
       Math.sin(theta) * radius,
       Math.cos(theta) * radius,
     })
