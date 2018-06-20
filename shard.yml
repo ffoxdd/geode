@@ -5,8 +5,10 @@ authors:
   - Dan Fox <dhf2001@gmail.com>
 
 targets:
-  dla-svg:
-    main: src/command/dla_svg.cr
+  dla2-svg:
+    main: src/command/dla2_svg.cr
+  dla3-x3d:
+    main: src/command/dla3_x3d.cr
 
 crystal: 0.22.0
 
