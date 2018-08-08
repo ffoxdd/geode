@@ -1,4 +1,4 @@
-struct AABB(V)
+struct Geo::AABB(V)
   getter minimum_point
   getter maximum_point
 

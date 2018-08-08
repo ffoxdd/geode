@@ -1,14 +1,16 @@
+require "../geo/particle"
+
 class DLA::ParticleCollection(V)
   include DLA::Aggregate::ParticleCollection(V)
-  include Enumerable(Particle(V))
+  include Enumerable(Geo::Particle(V))
 
-  @aabb : AABB(V)
-  @particles : Array(Particle(V))
+  @aabb : Geo::AABB(V)
+  @particles : Array(Geo::Particle(V))
   getter aabb, radius
 
-  def initialize(particles = ([] of Particle(V)))
-    @aabb = AABB(V).degenerate
-    @particles = [] of Particle(V)
+  def initialize(particles = ([] of Geo::Particle(V)))
+    @aabb = Geo::AABB(V).degenerate
+    @particles = [] of Geo::Particle(V)
     @radius = 0.0
 
     particles.each { |particle| self << particle }
@@ -16,13 +18,13 @@ class DLA::ParticleCollection(V)
 
   delegate size, each, to: @particles
 
-  def <<(particle : Particle(V))
+  def <<(particle : Geo::Particle(V))
     @particles << particle
     @aabb = @aabb.union(particle.aabb)
     @radius = Math.max(@radius, particle.magnitude)
   end
 
-  def closest(test_particle : Particle(V))
+  def closest(test_particle : Geo::Particle(V))
     min_by { |particle| particle.distance(test_particle) }
   end
 end

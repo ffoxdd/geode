@@ -1,30 +1,30 @@
 require "../spec_helper"
 
-describe DLA::Aggregate(Vector2) do
+describe DLA::Aggregate(Geo::Vector2) do
   describe "#initialize" do
     it "can be given existing particles" do
-      particle_collection = DLA::ParticleCollection(Vector2).new(
+      particle_collection = DLA::ParticleCollection(Geo::Vector2).new(
         particles: [
-          Particle(Vector2).new(center: Vector2.new({1.0, 1.0}), radius: 1.0),
-          Particle(Vector2).new(center: Vector2.new({3.0, 3.0}), radius: 2.0),
+          Geo::Particle(Geo::Vector2).new(center: Geo::Vector2.new({1.0, 1.0}), radius: 1.0),
+          Geo::Particle(Geo::Vector2).new(center: Geo::Vector2.new({3.0, 3.0}), radius: 2.0),
         ]
       )
 
-      aggregate = DLA::Aggregate(Vector2).new(particles: particle_collection)
+      aggregate = DLA::Aggregate(Geo::Vector2).new(particles: particle_collection)
 
       aggregate.size.should eq(2)
 
       aggregate.aabb.should eq(
-        AABB(Vector2).new(
-          minimum_point: Vector2.new({0.0, 0.0}),
-          maximum_point: Vector2.new({5.0, 5.0}),
+        Geo::AABB(Geo::Vector2).new(
+          minimum_point: Geo::Vector2.new({0.0, 0.0}),
+          maximum_point: Geo::Vector2.new({5.0, 5.0}),
         )
       )
 
       yielded_particles(aggregate).should eq(
         [
-          Particle(Vector2).new(center: Vector2.new({1.0, 1.0}), radius: 1.0),
-          Particle(Vector2).new(center: Vector2.new({3.0, 3.0}), radius: 2.0),
+          Geo::Particle(Geo::Vector2).new(center: Geo::Vector2.new({1.0, 1.0}), radius: 1.0),
+          Geo::Particle(Geo::Vector2).new(center: Geo::Vector2.new({3.0, 3.0}), radius: 2.0),
         ]
       )
     end
@@ -32,15 +32,15 @@ describe DLA::Aggregate(Vector2) do
 
   describe "#grow" do
     it "adds a particle to the aggregate" do
-        particle_collection = DLA::ParticleCollection(Vector2).new(
-          particles: [Particle(Vector2).new]
+        particle_collection = DLA::ParticleCollection(Geo::Vector2).new(
+          particles: [Geo::Particle(Geo::Vector2).new]
         )
 
-        aggregate = DLA::Aggregate(Vector2).new(
+        aggregate = DLA::Aggregate(Geo::Vector2).new(
           particles: particle_collection,
 
           grower: FakeGrower.new(
-            Particle(Vector2).new(center: Vector2.new({1.0, 0.0}), radius: 1.0)
+            Geo::Particle(Geo::Vector2).new(center: Geo::Vector2.new({1.0, 0.0}), radius: 1.0)
           ),
         )
 
@@ -49,9 +49,9 @@ describe DLA::Aggregate(Vector2) do
         aggregate.size.should eq(2)
 
         aggregate.aabb.should eq(
-          AABB(Vector2).new(
-            minimum_point: Vector2.new({-1.0, -1.0}),
-            maximum_point: Vector2.new({2.0, 1.0}),
+          Geo::AABB(Geo::Vector2).new(
+            minimum_point: Geo::Vector2.new({-1.0, -1.0}),
+            maximum_point: Geo::Vector2.new({2.0, 1.0}),
           )
         )
     end
@@ -59,9 +59,9 @@ describe DLA::Aggregate(Vector2) do
 end
 
 class FakeGrower
-  include DLA::Aggregate::Grower(Vector2)
+  include DLA::Aggregate::Grower(Geo::Vector2)
 
-  def initialize(@particle : Particle(Vector2))
+  def initialize(@particle : Geo::Particle(Geo::Vector2))
   end
 
   def new_particle(particles, spawn_radius, kill_radius)
@@ -70,7 +70,7 @@ class FakeGrower
 end
 
 def yielded_particles(aggregate)
-  result = [] of Particle(Vector2)
+  result = [] of Geo::Particle(Geo::Vector2)
   aggregate.each { |particle| result << particle }
   result
 end

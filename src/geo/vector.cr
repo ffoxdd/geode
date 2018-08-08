@@ -1,4 +1,4 @@
-module Vector
+module Geo::Vector
   getter components
   delegate :[], to: @components
 

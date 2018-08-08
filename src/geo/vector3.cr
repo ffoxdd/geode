@@ -1,8 +1,8 @@
 require "math"
 require "./vector"
 
-struct Vector3
-  include Vector
+struct Geo::Vector3
+  include Geo::Vector
 
   def initialize(@components = {0.0, 0.0, 0.0})
   end

@@ -1,4 +1,4 @@
-struct Particle(V)
+struct Geo::Particle(V)
   getter center
   getter radius
 
@@ -10,7 +10,7 @@ struct Particle(V)
   end
 
   def aabb
-    AABB(V).new(
+    Geo::AABB(V).new(
       minimum_point: center - radius,
       maximum_point: center + radius,
     )

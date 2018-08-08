@@ -1,12 +1,12 @@
 require "../spec_helper"
 
-describe DLA::Grower(Vector2) do
+describe DLA::Grower(Geo::Vector2) do
   it "returns a new particle to be added to the aggregate" do
-    particles = DLA::ParticleCollection(Vector2).new(
-      particles: [Particle(Vector2).new]
+    particles = DLA::ParticleCollection(Geo::Vector2).new(
+      particles: [Geo::Particle(Geo::Vector2).new]
     )
 
-    grower = DLA::Grower(Vector2).new(particle_radius: 1.0, overlap: 0.5)
+    grower = DLA::Grower(Geo::Vector2).new(particle_radius: 1.0, overlap: 0.5)
 
     new_particle = grower.new_particle(
       particles: particles,

@@ -1,8 +1,8 @@
 require "math"
 require "./vector"
 
-class Vector2
-  include Vector
+class Geo::Vector2
+  include Geo::Vector
 
   def initialize(@components = {0.0, 0.0})
   end

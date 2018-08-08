@@ -20,8 +20,8 @@ class DLA::Grower(V)
     def initialize(@particles, @particle_radius = 1.0, @spawn_radius = 10.0,
       @kill_radius = 20.0, @overlap = 0.2)
 
-      @test_particle = Particle(V).new
-      @closest_particle = Particle(V).new
+      @test_particle = Geo::Particle(V).new
+      @closest_particle = Geo::Particle(V).new
     end
 
     def new_particle
@@ -35,7 +35,7 @@ class DLA::Grower(V)
     end
 
     private def spawn
-      @test_particle = Particle(V).new.step(@spawn_radius)
+      @test_particle = Geo::Particle(V).new.step(@spawn_radius)
       find_closest_particle
     end
 
