@@ -1,4 +1,4 @@
-class Geo::Mesh::Triangles(V)
+class Geo::Graph::DCEL(V)
   @values : Set(V)
   @vertices : Set(Vertex(V))
   @edges : Set(Edge(V))

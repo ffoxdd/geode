@@ -1,4 +1,4 @@
-class Geo::Mesh::Vertex(V)
+class Geo::Graph::Vertex(V)
   @edge : Edge(V)?
 
   getter :value

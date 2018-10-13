@@ -1,18 +1,18 @@
 require "../../spec_helper"
 
-describe Geo::Mesh::Triangles(Geo::Vector3) do
+class TestValue
+end
+
+describe Geo::Graph::DCEL(TestValue) do
   describe ".polygon" do
-    it "builds a mesh with the given values" do
-      p1 = Geo::Vector3.new({1.0, 1.0, 1.0})
-      p2 = Geo::Vector3.new({2.0, 2.0, 2.0})
-      p3 = Geo::Vector3.new({3.0, 3.0, 3.0})
+    it "builds a dcel with the given values" do
+      v1, v2, v3 = TestValue.new, TestValue.new, TestValue.new
+      dcel = Geo::Graph::DCEL(TestValue).polygon([v1, v2, v3])
 
-      mesh = Geo::Mesh::Triangles(Geo::Vector3).polygon([p1, p2, p3])
+      dcel.values.should eq([v1, v2, v3].to_set)
+      dcel.vertices.map(&.value).to_set.should eq([v1, v2, v3].to_set)
 
-      mesh.values.should eq([p1, p2, p3].to_set)
-      mesh.vertices.map(&.value).to_set.should eq([p1, p2, p3].to_set)
-
-      e1 = mesh.edges.first
+      e1 = dcel.edges.first
       e2 = e1.next
       e3 = e2.next
 
@@ -54,8 +54,8 @@ describe Geo::Mesh::Triangles(Geo::Vector3) do
       [e2, e1_].should contain(e2.origin.edge)
       [e3, e2_].should contain(e3.origin.edge)
 
-      inner_edges.map(&.origin).to_set.should eq(mesh.vertices)
-      outer_edges.map(&.origin).to_set.should eq(mesh.vertices)
+      inner_edges.map(&.origin).to_set.should eq(dcel.vertices)
+      outer_edges.map(&.origin).to_set.should eq(dcel.vertices)
 
       f = e1.face
       f_ = e1_.face
@@ -63,24 +63,21 @@ describe Geo::Mesh::Triangles(Geo::Vector3) do
       inner_edges.map(&.face).to_set.should eq([f].to_set)
       outer_edges.map(&.face).to_set.should eq([f_].to_set)
 
-      [f, f_].to_set.should eq(mesh.faces)
+      [f, f_].to_set.should eq(dcel.faces)
     end
   end
 
   describe "#add_vertex" do
     it "adds a vertex by connecting [incident_vertex.target, new_vertex]" do
-      p1 = Geo::Vector3.new({1.0, 1.0, 1.0})
-      p2 = Geo::Vector3.new({2.0, 2.0, 2.0})
-      p3 = Geo::Vector3.new({3.0, 3.0, 3.0})
+      v1, v2, v3 = TestValue.new, TestValue.new, TestValue.new
+      dcel = Geo::Graph::DCEL(TestValue).polygon([v1, v2, v3])
 
-      mesh = Geo::Mesh::Triangles(Geo::Vector3).polygon([p1, p2, p3])
+      new_value = TestValue.new
 
-      p4 = Geo::Vector3.new({4.0, 4.0, 4.0})
-
-      incident_edge = mesh.edges.first
+      incident_edge = dcel.edges.first
       old_next_edge = incident_edge.next
 
-      mesh.add_vertex(incident_edge, p4)
+      dcel.add_vertex(incident_edge, new_value)
 
       outward_edge = incident_edge.next
       inward_edge = outward_edge.next
@@ -97,7 +94,7 @@ describe Geo::Mesh::Triangles(Geo::Vector3) do
       outward_edge.twin.should eq(inward_edge)
       inward_edge.twin.should eq(outward_edge)
 
-      inward_edge.origin.value.should eq(p4)
+      inward_edge.origin.value.should eq(new_value)
 
       outward_edge.face.should eq(incident_edge.face)
       inward_edge.face.should eq(incident_edge.face)
@@ -117,5 +114,5 @@ describe Geo::Mesh::Triangles(Geo::Vector3) do
   #
   # delaunay will also need quadrilateral edge flipping
 
-  # better naming is probably mesh -> graph and triangles -> dcel
+  # better naming is probably dcel -> graph and triangles -> dcel
 end

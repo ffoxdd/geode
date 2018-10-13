@@ -1,4 +1,4 @@
-class Geo::Mesh::Edge(V)
+class Geo::Graph::Edge(V)
   @origin : Vertex(V)
   @next : Edge(V)?
   @previous : Edge(V)?

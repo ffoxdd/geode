@@ -1,4 +1,4 @@
-class Geo::Mesh::Face(V)
+class Geo::Graph::Face(V)
   @edge : Edge(V)?
 
   property! :edge
