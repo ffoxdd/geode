@@ -67,7 +67,7 @@ class Geo::Mesh::Triangles(V)
 
     private def link_cycle(edges)
       cyclic_adjacent(edges) do |edge_0, edge_1|
-        edge_0.after = edge_1
+        edge_0.next = edge_1
       end
     end
 

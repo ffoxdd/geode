@@ -13,12 +13,12 @@ describe Geo::Mesh::Triangles(Geo::Vector3) do
       mesh.vertices.map(&.value).to_set.should eq([p0, p1, p2].to_set)
 
       e1 = mesh.edges[0]
-      e2 = e1.after
-      e3 = e2.after
+      e2 = e1.next
+      e3 = e2.next
 
       inner_edges = [e1, e2, e3]
 
-      e3.after.should eq(e1)
+      e3.next.should eq(e1)
 
       e1_ = e1.twin
       e2_ = e2.twin
@@ -26,9 +26,9 @@ describe Geo::Mesh::Triangles(Geo::Vector3) do
 
       outer_edges = [e1_, e2_, e3_]
 
-      e1_.after.should eq(e3_)
-      e3_.after.should eq(e2_)
-      e2_.after.should eq(e1_)
+      e1_.next.should eq(e3_)
+      e3_.next.should eq(e2_)
+      e2_.next.should eq(e1_)
 
       e1.origin.should eq(e3_.origin)
       e2.origin.should eq(e1_.origin)
