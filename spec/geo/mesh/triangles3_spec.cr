@@ -9,10 +9,10 @@ describe Geo::Mesh::Triangles(Geo::Vector3) do
 
       mesh = Geo::Mesh::Triangles(Geo::Vector3).polygon([p0, p1, p2])
 
-      mesh.values.to_set.should eq([p0, p1, p2].to_set)
+      mesh.values.should eq([p0, p1, p2].to_set)
       mesh.vertices.map(&.value).to_set.should eq([p0, p1, p2].to_set)
 
-      e1 = mesh.edges[0]
+      e1 = mesh.edges.first
       e2 = e1.next
       e3 = e2.next
 
@@ -38,8 +38,16 @@ describe Geo::Mesh::Triangles(Geo::Vector3) do
       [e2, e1_].should contain(e2.origin.edge)
       [e3, e2_].should contain(e3.origin.edge)
 
-      inner_edges.map(&.origin).to_set.should eq(mesh.vertices.to_set)
-      outer_edges.map(&.origin).to_set.should eq(mesh.vertices.to_set)
+      inner_edges.map(&.origin).to_set.should eq(mesh.vertices)
+      outer_edges.map(&.origin).to_set.should eq(mesh.vertices)
+
+      f = e1.face
+      f_ = e1_.face
+
+      inner_edges.map(&.face).to_set.should eq([f].to_set)
+      outer_edges.map(&.face).to_set.should eq([f_].to_set)
+
+      [f, f_].to_set.should eq(mesh.faces)
 
       # QUESTIONS
       # - how can you make a custom matcher (for connectivity tests)?
