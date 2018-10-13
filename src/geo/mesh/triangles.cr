@@ -18,6 +18,25 @@ class Geo::Mesh::Triangles(V)
     new(**builder.components)
   end
 
+  def add_vertex(incident_edge, value)
+    old_next_edge = incident_edge.next
+
+    new_vertex = Vertex(V).new(value)
+    outward_edge = Edge(V).new(incident_edge.target)
+    inward_edge = Edge(V).new(new_vertex)
+
+    Edge.link_twins(outward_edge, inward_edge)
+
+    Edge.link_adjacent(incident_edge, outward_edge)
+    Edge.link_adjacent(outward_edge, inward_edge)
+    Edge.link_adjacent(inward_edge, old_next_edge)
+
+    outward_edge.face = inward_edge.face = incident_edge.face
+
+    edges << outward_edge << inward_edge
+    vertices << new_vertex
+  end
+
   class PolygonBuilder(V)
     property :values
 
@@ -57,8 +76,7 @@ class Geo::Mesh::Triangles(V)
 
     private def link_twins(edges_0, edges_1)
       zip(edges_0, edges_1) do |edge_0, edge_1|
-        edge_0.twin = edge_1
-        edge_1.twin = edge_0
+        Edge.link_twins(edge_0, edge_1)
       end
     end
 
@@ -70,9 +88,8 @@ class Geo::Mesh::Triangles(V)
     end
 
     private def link_cycle(edges)
-      cyclic_adjacent(edges) do |edge_0, edge_1|
-        edge_0.next = edge_1
-        edge_1.previous = edge_0
+      cyclic_adjacent(edges) do |previous_edge, next_edge|
+        Edge.link_adjacent(previous_edge, next_edge)
       end
     end
 
@@ -83,7 +100,9 @@ class Geo::Mesh::Triangles(V)
     end
 
     private def zip(elements_0, elements_1)
-      elements_0.each_with_index { |element_0, i| yield element_0, elements_1[i] }
+      elements_0.each_with_index do |element_0, i|
+        yield element_0, elements_1[i]
+      end
     end
   end
 end
