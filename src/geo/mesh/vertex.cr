@@ -1,7 +1,11 @@
 class Geo::Mesh::Vertex(V)
-  getter value
+  @edge : Edge(V)?
+
+  getter :value
+  property! :edge
 
   def initialize(@value : V)
+    @edge = nil
   end
 
   def ==(rhs)

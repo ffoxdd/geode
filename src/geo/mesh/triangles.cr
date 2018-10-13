@@ -55,7 +55,9 @@ class Geo::Mesh::Triangles(V)
     end
 
     private def build_edges(vertices)
-      vertices.map { |vertex| Edge(V).new(vertex) }
+      vertices.map do |vertex|
+        Edge(V).new(vertex).tap { |edge| vertex.edge = edge }
+      end
     end
 
     private def link_twins(edges_0, edges_1)

@@ -34,6 +34,10 @@ describe Geo::Mesh::Triangles(Geo::Vector3) do
       e2.origin.should eq(e1_.origin)
       e3.origin.should eq(e2_.origin)
 
+      [e1, e3_].should contain(e1.origin.edge)
+      [e2, e1_].should contain(e2.origin.edge)
+      [e3, e2_].should contain(e3.origin.edge)
+
       inner_edges.map(&.origin).to_set.should eq(mesh.vertices.to_set)
       outer_edges.map(&.origin).to_set.should eq(mesh.vertices.to_set)
 
