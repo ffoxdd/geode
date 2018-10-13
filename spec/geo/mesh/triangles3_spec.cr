@@ -48,10 +48,6 @@ describe Geo::Mesh::Triangles(Geo::Vector3) do
       outer_edges.map(&.face).to_set.should eq([f_].to_set)
 
       [f, f_].to_set.should eq(mesh.faces)
-
-      # QUESTIONS
-      # - how can you make a custom matcher (for connectivity tests)?
-      # - what is the most canonical way to implement the various iterators?
     end
   end
 end
