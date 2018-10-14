@@ -61,13 +61,13 @@ class Geo::Graph::DCEL(V)
     new_edge.face = edge.face
 
     new_face = Face(V).new
-    new_edge_twin.each_face_edge { |edge_| edge_.face = new_face }
+    new_edge_twin.each_face_edge { |e| e.face = new_face }
 
     edges << new_edge << new_edge_twin
     faces << new_face
   end
 
-  class PolygonBuilder(V)
+  private class PolygonBuilder(V)
     property :values
 
     def initialize(@values : Array(V))

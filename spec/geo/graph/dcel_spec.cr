@@ -6,11 +6,11 @@ end
 describe Geo::Graph::DCEL(TestValue) do
   describe ".polygon" do
     it "builds a dcel with the given values" do
-      v1, v2, v3 = TestValue.new, TestValue.new, TestValue.new
-      dcel = Geo::Graph::DCEL(TestValue).polygon([v1, v2, v3])
+      values = Array.new(3) { TestValue.new }
+      dcel = Geo::Graph::DCEL(TestValue).polygon(values)
 
-      dcel.values.should eq([v1, v2, v3].to_set)
-      dcel.vertices.map(&.value).to_set.should eq([v1, v2, v3].to_set)
+      dcel.values.should eq(values.to_set)
+      dcel.vertices.map(&.value).to_set.should eq(values.to_set)
 
       e1 = dcel.edges.first
       e2 = e1.next
@@ -69,8 +69,8 @@ describe Geo::Graph::DCEL(TestValue) do
 
   describe "#add_vertex" do
     it "adds a vertex by connecting [incident_vertex.target, new_vertex]" do
-      v1, v2, v3 = TestValue.new, TestValue.new, TestValue.new
-      dcel = Geo::Graph::DCEL(TestValue).polygon([v1, v2, v3])
+      values = Array.new(3) { TestValue.new }
+      dcel = Geo::Graph::DCEL(TestValue).polygon(values)
 
       new_value = TestValue.new
 
@@ -105,7 +105,7 @@ describe Geo::Graph::DCEL(TestValue) do
   end
 
   describe "#split_face" do
-    it "splits the face along the line indicated by and edge and a vertex" do
+    it "splits the face along the line indicated by an edge and a vertex" do
       values = Array.new(4) { TestValue.new }
       dcel = Geo::Graph::DCEL(TestValue).polygon(values)
 
@@ -137,16 +137,11 @@ describe Geo::Graph::DCEL(TestValue) do
     end
   end
 
-  # might be better with these primitives:
-  #   add_vertex(incident_vertex, value)
-  #   split_face(edge, vertex)
+  # Now we need:
   #
-  # then we can make
   #   dilate_edge(edge, value)
   #     - one add_vertex and one split_face
   #
   #   subdivide_face(face, value)
   #     - one add_vertex and iterative split_face's
-  #
-  # delaunay will also need quadrilateral edge flipping
 end
