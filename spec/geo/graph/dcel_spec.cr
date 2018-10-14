@@ -82,6 +82,9 @@ describe Geo::Graph::DCEL(TestValue) do
       outward_edge = incident_edge.next
       inward_edge = outward_edge.next
 
+      dcel.edges.should contain(outward_edge)
+      dcel.edges.should contain(inward_edge)
+
       incident_edge.next.should eq(outward_edge)
       outward_edge.previous.should eq(incident_edge)
 
@@ -101,6 +104,39 @@ describe Geo::Graph::DCEL(TestValue) do
     end
   end
 
+  describe "#split_face" do
+    it "splits the face along the line indicated by and edge and a vertex" do
+      values = Array.new(4) { TestValue.new }
+      dcel = Geo::Graph::DCEL(TestValue).polygon(values)
+
+      edge_1 = dcel.edges.first
+      edge_2 = edge_1.next
+      edge_3 = edge_2.next
+      edge_4 = edge_3.next
+
+      dcel.split_face(edge_1, edge_4.origin)
+
+      new_edge = edge_1.next
+
+      new_edge.next.should eq(edge_4)
+      edge_4.previous.should eq(new_edge)
+
+      new_edge.origin.should eq(edge_2.origin)
+      new_edge.face.should eq(edge_1.face)
+
+      new_edge.twin.next.should eq(edge_2)
+      edge_2.previous.should eq(new_edge.twin)
+
+      edge_3.next.should eq(new_edge.twin)
+      new_edge.twin.previous.should eq(edge_3)
+
+      new_edge.face.should_not eq(new_edge.twin.face)
+
+      edge_2.face.should eq(new_edge.twin.face)
+      edge_3.face.should eq(new_edge.twin.face)
+    end
+  end
+
   # might be better with these primitives:
   #   add_vertex(incident_vertex, value)
   #   split_face(edge, vertex)
@@ -113,6 +149,4 @@ describe Geo::Graph::DCEL(TestValue) do
   #     - one add_vertex and iterative split_face's
   #
   # delaunay will also need quadrilateral edge flipping
-
-  # better naming is probably dcel -> graph and triangles -> dcel
 end

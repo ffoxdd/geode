@@ -19,6 +19,20 @@ class Geo::Graph::Edge(V)
     self.next.origin
   end
 
+  def incident_to?(vertex)
+    origin == vertex || target == vertex
+  end
+
+  def each_face_edge
+    current_edge = self
+
+    loop do
+      yield current_edge
+      return if current_edge.next == self
+      current_edge = current_edge.next
+    end
+  end
+
   def self.link_adjacent(previous_edge, next_edge)
     previous_edge.next = next_edge
     next_edge.previous = previous_edge

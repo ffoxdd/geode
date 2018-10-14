@@ -37,6 +37,36 @@ class Geo::Graph::DCEL(V)
     vertices << new_vertex
   end
 
+  def split_face(edge, vertex)
+    if edge.incident_to?(vertex) || edge.next.incident_to?(vertex)
+      raise "vertex cannot be adjacent to the splitting target"
+    end
+
+    target_edge = edge.face.edge_with_origin(vertex).not_nil!
+
+    old_next_edge = edge.next
+    old_previous_target_edge = target_edge.previous
+
+    new_edge = Edge(V).new(edge.target)
+    new_edge_twin = Edge(V).new(vertex)
+
+    Edge.link_twins(new_edge, new_edge_twin)
+
+    Edge.link_adjacent(edge, new_edge)
+    Edge.link_adjacent(new_edge, target_edge)
+
+    Edge.link_adjacent(old_previous_target_edge, new_edge_twin)
+    Edge.link_adjacent(new_edge_twin, old_next_edge)
+
+    new_edge.face = edge.face
+
+    new_face = Face(V).new
+    new_edge_twin.each_face_edge { |edge_| edge_.face = new_face }
+
+    edges << new_edge << new_edge_twin
+    faces << new_face
+  end
+
   class PolygonBuilder(V)
     property :values
 
