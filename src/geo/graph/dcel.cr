@@ -60,6 +60,7 @@ class Geo::Graph::DCEL(V)
 
     new_edge.face = edge.face
 
+    # TODO: make sure the old face has a valid edge reference
     new_face = Face(V).new
     new_edge_twin.each_face_edge { |e| e.face = new_face }
 
