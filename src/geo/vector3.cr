@@ -2,7 +2,7 @@ require "math"
 require "./vector"
 
 struct Geo::Vector3
-  include Geo::Vector
+  include Vector
 
   def initialize(@components = {0.0, 0.0, 0.0})
   end

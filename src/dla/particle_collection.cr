@@ -1,7 +1,7 @@
 require "../geo/particle"
 
 class DLA::ParticleCollection(V)
-  include DLA::Aggregate::ParticleCollection(V)
+  include Aggregate::ParticleCollection(V)
   include Enumerable(Geo::Particle(V))
 
   @aabb : Geo::AABB(V)

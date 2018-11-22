@@ -1,5 +1,5 @@
 class DLA::Grower(V)
-  include DLA::Aggregate::Grower(V)
+  include Aggregate::Grower(V)
 
   def initialize(@particle_radius = 1.0, @overlap = 0.2)
   end
@@ -15,7 +15,7 @@ class DLA::Grower(V)
   end
 
   class Context(V)
-    @particles : DLA::Aggregate::ParticleCollection(V)
+    @particles : Aggregate::ParticleCollection(V)
 
     def initialize(@particles, @particle_radius = 1.0, @spawn_radius = 10.0,
       @kill_radius = 20.0, @overlap = 0.2)

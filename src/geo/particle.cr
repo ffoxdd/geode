@@ -10,7 +10,7 @@ struct Geo::Particle(V)
   end
 
   def aabb
-    Geo::AABB(V).new(
+    AABB(V).new(
       minimum_point: center - radius,
       maximum_point: center + radius,
     )

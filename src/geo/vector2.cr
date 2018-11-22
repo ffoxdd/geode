@@ -2,7 +2,7 @@ require "math"
 require "./vector"
 
 class Geo::Vector2
-  include Geo::Vector
+  include Vector
 
   def initialize(@components = {0.0, 0.0})
   end
