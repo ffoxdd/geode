@@ -1,7 +1,7 @@
 require "math"
 require "./vector"
 
-class Geo::Vector2
+class DLA::Vector2
   include Vector
 
   def initialize(@components = {0.0, 0.0})

@@ -1,7 +1,7 @@
 require "math"
 require "./vector"
 
-struct Geo::Vector3
+struct DLA::Vector3
   include Vector
 
   def initialize(@components = {0.0, 0.0, 0.0})

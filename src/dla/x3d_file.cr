@@ -1,7 +1,7 @@
 require "xml"
 
 class DLA::X3DFile
-  def initialize(@aggregate : Aggregate(Geo::Vector3))
+  def initialize(@aggregate : Aggregate(DLA::Vector3))
     @filename = "./data/test.x3d"
   end
 

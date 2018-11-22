@@ -1,7 +1,7 @@
 require "xml"
 
 class DLA::SVGFile
-  def initialize(@aggregate : Aggregate(Geo::Vector2), @scale = 10, @padding = 0.2,
+  def initialize(@aggregate : Aggregate(DLA::Vector2), @scale = 10, @padding = 0.2,
     @filename = "./data/test.svg")
   end
 
@@ -33,8 +33,8 @@ class DLA::SVGFile
     )
   end
 
-  private def transform(particle : Geo::Particle(Geo::Vector2))
-    Geo::Particle(Geo::Vector2).new(
+  private def transform(particle : DLA::Particle(DLA::Vector2))
+    DLA::Particle(DLA::Vector2).new(
       center: particle.center * @scale + offset,
       radius: particle.radius * @scale,
     )
@@ -45,7 +45,7 @@ class DLA::SVGFile
   end
 
   private def origin
-    Geo::Vector2.new({width, height}) / 2
+    DLA::Vector2.new({width, height}) / 2
   end
 
   private def width

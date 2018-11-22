@@ -5,10 +5,10 @@ class DLA::Aggregate(V)
   end
 
   module ParticleCollection(V)
-    abstract def <<(particle : Geo::Particle(V))
+    abstract def <<(particle : DLA::Particle(V))
     abstract def size
-    abstract def each(&block : Geo::Particle(V) -> _)
-    abstract def closest(particle : Geo::Particle(V))
+    abstract def each(&block : DLA::Particle(V) -> _)
+    abstract def closest(particle : DLA::Particle(V))
     abstract def radius
   end
 
@@ -29,6 +29,6 @@ class DLA::Aggregate(V)
   end
 
   private def seed_particle
-    DLA::ParticleCollection(V).new(particles: [Geo::Particle(V).new])
+    DLA::ParticleCollection(V).new(particles: [DLA::Particle(V).new])
   end
 end

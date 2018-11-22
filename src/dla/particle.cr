@@ -1,4 +1,4 @@
-struct Geo::Particle(V)
+struct DLA::Particle(V)
   getter center
   getter radius
 
