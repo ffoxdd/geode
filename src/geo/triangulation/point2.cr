@@ -23,9 +23,10 @@ struct Geo::Triangulation::Point2
 
   def right_handed?(line)
     # this is a simplified version of det(self, line, z=1) > 0
-    self[0] * line[1] - self[1] * line[0] > 0
+    self[0] * line[1] - self[1] * line[0] >= 0
   end
 
+  # TODO: consider returning a vector instead of a point here (it's technically a line)
   def join(point)
     Point2.new(vector.cross(point.vector).coordinates)
   end
