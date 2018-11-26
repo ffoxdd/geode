@@ -17,18 +17,17 @@ struct Geo::Triangulation::Point2
       line_1 = v0.join(v1)
       line_2 = v0.join(self)
 
-      line_1.right_handed?(line_2)
+      right_handed?(line_1, line_2)
     end
   end
 
-  def right_handed?(line)
-    # this is a simplified version of det(self, line, z=1) > 0
-    self[0] * line[1] - self[1] * line[0] >= 0
+  def right_handed?(v0, v1)
+    # this is a simplified version of det(v0, v1, <z=1>) >= 0
+    v0[0] * v1[1] - v0[1] * v1[0] >= 0
   end
 
-  # TODO: consider returning a vector instead of a point here (it's technically a line)
   def join(point)
-    Point2.new(vector.cross(point.vector).coordinates)
+    vector.cross(point.vector)
   end
 
   private struct Vector3

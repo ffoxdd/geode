@@ -4,6 +4,10 @@ describe Geo::Triangulation::Point2 do
   describe "#in_polygon?" do
     [
 
+      # inside
+      {coordinates: {1.0, 1.0, 1.0}, result: true},
+
+      # on the perimeter
       {coordinates: {0.0, 0.0, 1.0}, result: true},
       {coordinates: {0.0, 1.0, 1.0}, result: true},
       {coordinates: {0.0, 3.0, 1.0}, result: true},
@@ -12,13 +16,11 @@ describe Geo::Triangulation::Point2 do
       {coordinates: {0.0, 3.0, 1.0}, result: true},
       {coordinates: {0.0, 2.0, 1.0}, result: true},
 
-      {coordinates: {1.0, 1.0, 1.0}, result: true},
-
+      # outside
       {coordinates: {-1.0, 0.0, 1.0}, result: false},
       {coordinates: {4.0, 0.0, 1.0}, result: false},
       {coordinates: {0.0, -1.0, 1.0}, result: false},
       {coordinates: {0.0, 4.0, 1.0}, result: false},
-
       {coordinates: {3.0, 3.0, 1.0}, result: false},
       {coordinates: {-1.0, 1.0, 1.0}, result: false},
       {coordinates: {1.0, -1.0, 1.0}, result: false},
