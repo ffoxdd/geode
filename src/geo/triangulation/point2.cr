@@ -6,28 +6,13 @@ struct Geo::Triangulation::Point2
   getter vector
   delegate :[], to: vector
 
-  def inside_polygon?(*vertices)
-    edges = [] of Array(Point2)
-
-    vertices.cycle.first(vertices.size + 1).each_cons(2) do |edge_vertices|
-      edges << edge_vertices
-    end
-
-    edges.all? do |(v0, v1)|
-      line_1 = v0.join(v1)
-      line_2 = v0.join(self)
-
-      right_handed?(line_1, line_2)
-    end
-  end
-
-  def right_handed?(v0, v1)
+  def Point2.right_handed?(v0, v1)
     # this is a simplified version of det(v0, v1, <z=1>) >= 0
     v0[0] * v1[1] - v0[1] * v1[0] >= 0
   end
 
-  def join(point)
-    vector.cross(point.vector)
+  def Point2.join(p1, p2)
+    Vector3.cross(p1, p2)
   end
 
   private struct Vector3
@@ -37,11 +22,11 @@ struct Geo::Triangulation::Point2
     getter coordinates
     delegate :[], to: coordinates
 
-    def cross(vector)
+    def Vector3.cross(v1, v2)
       Vector3.new({
-         self[1] * vector[2] - self[2] * vector[1],
-        -self[0] * vector[2] + self[2] * vector[0],
-         self[0] * vector[1] - self[1] * vector[0]
+         v1[1] * v2[2] - v1[2] * v2[1],
+        -v1[0] * v2[2] + v1[2] * v2[0],
+         v1[0] * v2[1] - v1[1] * v2[0]
       })
     end
   end

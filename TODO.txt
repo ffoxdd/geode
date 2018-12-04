@@ -1,3 +1,2 @@
-- [ ] See about putting Point2#inside_polygon in a dedicated polygon object
 - [ ] Represent the sub-determinant in Point2#right_handed as a vector operation
 - [ ] Use a generator or something to clean up the iteration in Point2#inside_polygon?
