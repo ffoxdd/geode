@@ -1,2 +1,1 @@
-- [ ] Represent the sub-determinant in Point2#right_handed as a vector operation
-- [ ] Use a generator or something to clean up the iteration in Point2#inside_polygon?
+- [ ] Add unit tests around basic triangulation objects

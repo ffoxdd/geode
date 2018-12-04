@@ -26,13 +26,13 @@ describe Geo::Triangulation::Polygon do
       {coordinates: {1.0, -1.0, 1.0}, result: false},
 
     ].each do |test|
-      p1 = Geo::Triangulation::Point2.new({0.0, 0.0, 1.0})
-      p2 = Geo::Triangulation::Point2.new({3.0, 0.0, 1.0})
-      p3 = Geo::Triangulation::Point2.new({0.0, 3.0, 1.0})
+      p1 = Geo::Triangulation::Point2.from_coordinates({0.0, 0.0, 1.0})
+      p2 = Geo::Triangulation::Point2.from_coordinates({3.0, 0.0, 1.0})
+      p3 = Geo::Triangulation::Point2.from_coordinates({0.0, 3.0, 1.0})
 
-      polygon = Geo::Triangulation::Polygon.new(p1, p2, p3)
+      polygon = Geo::Triangulation::Polygon.new([p1, p2, p3])
 
-      test_point = Geo::Triangulation::Point2.new(test[:coordinates])
+      test_point = Geo::Triangulation::Point2.from_coordinates(test[:coordinates])
       polygon.contains?(test_point).should eq(test[:result])
     end
   end

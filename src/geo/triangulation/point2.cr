@@ -1,17 +1,21 @@
 struct Geo::Triangulation::Point2
-  def initialize(coordinates = {0.0, 0.0, 1.0})
-    @vector = Vector3.new(coordinates)
+  @vector : Vector3
+
+  def initialize(@vector)
+  end
+
+  def Point2.from_coordinates(coordinates : Tuple(Float64, Float64, Float64))
+    Point2.new(Vector3.new(coordinates))
   end
 
   getter vector
   delegate :[], to: vector
 
-  def Point2.right_handed?(v0, v1)
-    # this is a simplified version of det(v0, v1, <z=1>) >= 0
-    v0[0] * v1[1] - v0[1] * v1[0] >= 0
+  def direction
+    Vector2.new({vector[0], vector[1]})
   end
 
   def Point2.join(p1, p2)
-    Vector3.cross(p1, p2)
+    Line2.new(Vector3.cross(p1, p2))
   end
 end

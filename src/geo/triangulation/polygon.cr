@@ -1,31 +1,55 @@
 class Geo::Triangulation::Polygon
-  @vertices : Array(Point2)
-
-  def initialize(*vertices)
-    @vertices = vertices.to_a
+  def initialize(vertices : Array(Point2))
+    @vertices = vertices
   end
 
   def contains?(point)
-    edges = [] of Array(Point2)
+    each_edge.all? { |edge| edge.can_see?(point) }
+  end
 
-    @vertices.cycle.first(@vertices.size + 1).each_cons(2) do |edge_vertices|
-      edges << edge_vertices
+  private def each_edge
+    EdgeIterator.new(@vertices)
+  end
+
+  private class Edge
+    def initialize(@vertex_0 : Point2, @vertex_1 : Point2)
     end
 
-    edges.all? do |(v0, v1)|
-      line_1 = Point2.join(v0, v1)
-      line_2 = Point2.join(v0, point)
+    def can_see?(point)
+      Line2.right_handed?(edge_line, incident_line(point))
+    end
 
-      Point2.right_handed?(line_1, line_2)
+    private def edge_line
+      Point2.join(@vertex_0, @vertex_1)
+    end
+
+    private def incident_line(point)
+      Point2.join(@vertex_0, point)
     end
   end
 
-  def right_handed?(v0, v1)
-    # this is a simplified version of det(v0, v1, <z=1>) >= 0
-    v0[0] * v1[1] - v0[1] * v1[0] >= 0
-  end
+  private class EdgeIterator
+    include Iterator(Edge)
 
-  def join(point)
-    vector.cross(point.vector)
+    def initialize(@vertices : Array(Point2))
+      @index = 0
+    end
+
+    def next
+      return stop if @index > (@vertices.size - 1)
+      current_edge.tap { @index += 1 }
+    end
+
+    def rewind
+      @index = 0
+    end
+
+    private def current_edge
+      Edge.new(@vertices[@index], @vertices[next_index])
+    end
+
+    private def next_index
+      (@index + 1) % @vertices.size
+    end
   end
 end

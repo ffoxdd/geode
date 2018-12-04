@@ -1,5 +1,5 @@
 struct Geo::Triangulation::Vector3
-  def initialize(@coordinates = {0.0, 0.0, 1.0})
+  def initialize(@coordinates = {0.0, 0.0, 0.0})
   end
 
   getter coordinates
