@@ -13,9 +13,46 @@ class Geo::Graph::DCEL(V)
     @faces = Set.new(faces)
   end
 
-  def self.polygon(values : Array(V))
-    builder = PolygonBuilder(V).new(values)
-    new(**builder.components)
+  def DCEL.polygon(values : Array(V))
+    if values.size < 3
+      raise "a polygon requires at least three vertices"
+    end
+
+    values = values.dup
+    value_1 = values.shift
+    value_2 = values.shift
+
+    dcel = DCEL.simple(value_1, value_2)
+    first_edge = dcel.edge_with_target(value_2)
+
+    leading_edge = first_edge
+
+    values.each do |value|
+      leading_edge = dcel.add_vertex(leading_edge, value)
+    end
+
+    dcel.split_face(leading_edge, first_edge.origin)
+
+    dcel
+  end
+
+  def edge_with_target(value)
+    edges.find { |edge| edge.target.value == value }.not_nil!
+  end
+
+  def self.simple(value_1 : V, value_2 : V)
+    values = {value_1, value_2}
+    vertices = values.map { |value| Vertex(V).new(value) }
+    edges = vertices.map { |vertex| Edge(V).new(vertex) }
+
+    face = Face(V).new(edges.first)
+    edges.each { |edge| edge.face = face }
+
+    Edge.link_adjacent(*edges)
+    Edge.link_adjacent(*edges.reverse)
+    Edge.link_twins(*edges)
+
+    DCEL(V).new(values, vertices, edges, {face})
   end
 
   def add_vertex(incident_edge, value)
@@ -35,6 +72,9 @@ class Geo::Graph::DCEL(V)
 
     edges << outward_edge << inward_edge
     vertices << new_vertex
+    values << value
+
+    outward_edge
   end
 
   def split_face(edge, vertex)
@@ -58,82 +98,16 @@ class Geo::Graph::DCEL(V)
     Edge.link_adjacent(old_previous_target_edge, new_edge_twin)
     Edge.link_adjacent(new_edge_twin, old_next_edge)
 
-    new_edge.face = edge.face
-
-    # TODO: make sure the old face has a valid edge reference
+    old_face = edge.face
     new_face = Face(V).new
+
+    new_edge.face = old_face
     new_edge_twin.each_face_edge { |e| e.face = new_face }
+
+    old_face.edge = edge
+    new_face.edge = new_edge_twin
 
     edges << new_edge << new_edge_twin
     faces << new_face
-  end
-
-  private class PolygonBuilder(V)
-    property :values
-
-    def initialize(@values : Array(V))
-    end
-
-    def components
-      vertices = build_vertices(values)
-
-      inner_edges = build_edges(vertices)
-      outer_edges = build_edges(vertices)
-
-      link_cycle(inner_edges)
-      link_cycle(outer_edges.reverse)
-      link_twins(inner_edges, outer_edges.rotate)
-
-      faces = [build_face(inner_edges), build_face(outer_edges)]
-      edges = inner_edges + outer_edges
-
-      {
-        values: values,
-        vertices: vertices,
-        edges: edges,
-        faces: faces,
-      }
-    end
-
-    private def build_vertices(values)
-      values.map { |value| Vertex(V).new(value) }
-    end
-
-    private def build_edges(vertices)
-      vertices.map do |vertex|
-        Edge(V).new(vertex).tap { |edge| vertex.edge = edge }
-      end
-    end
-
-    private def link_twins(edges_0, edges_1)
-      zip(edges_0, edges_1) do |edge_0, edge_1|
-        Edge.link_twins(edge_0, edge_1)
-      end
-    end
-
-    private def build_face(edges)
-      Face(V).new.tap do |face|
-        edges.each { |edge| edge.face = face }
-        face.edge = edges[0]
-      end
-    end
-
-    private def link_cycle(edges)
-      cyclic_adjacent(edges) do |previous_edge, next_edge|
-        Edge.link_adjacent(previous_edge, next_edge)
-      end
-    end
-
-    private def cyclic_adjacent(elements)
-      elements.cycle.first(elements.size + 1).each_cons(2) do |(e_0, e_1)|
-        yield e_0, e_1
-      end
-    end
-
-    private def zip(elements_0, elements_1)
-      elements_0.each_with_index do |element_0, i|
-        yield element_0, elements_1[i]
-      end
-    end
   end
 end

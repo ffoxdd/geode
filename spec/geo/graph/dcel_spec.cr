@@ -69,9 +69,7 @@ describe Geo::Graph::DCEL(TestValue) do
 
   describe "#add_vertex" do
     it "adds a vertex by connecting [incident_vertex.target, new_vertex]" do
-      values = Array.new(3) { TestValue.new }
-      dcel = Geo::Graph::DCEL(TestValue).polygon(values)
-
+      dcel = Geo::Graph::DCEL(TestValue).simple(TestValue.new, TestValue.new)
       new_value = TestValue.new
 
       incident_edge = dcel.edges.first
@@ -137,11 +135,42 @@ describe Geo::Graph::DCEL(TestValue) do
     end
   end
 
-  # Now we need:
-  #
-  #   dilate_edge(edge, value)
-  #     - one add_vertex and one split_face
-  #
-  #   subdivide_face(face, value)
-  #     - one add_vertex and iterative split_face's
+  describe ".simple" do
+    it "returns a DCEL with two vertices" do
+      value_1 = TestValue.new
+      value_2 = TestValue.new
+
+      dcel = Geo::Graph::DCEL(TestValue).simple(value_1, value_2)
+
+      dcel.vertices.size.should eq(2)
+      dcel.edges.size.should eq(2)
+      dcel.faces.size.should eq(1)
+
+      vertex_1 = dcel.vertices.to_a.first
+      vertex_2 = dcel.vertices.to_a.last
+
+      edge_1 = dcel.edges.to_a.first
+      edge_2 = dcel.edges.to_a.last
+
+      face = dcel.faces.to_a.first
+
+      vertex_1.value.should eq(value_1)
+      vertex_2.value.should eq(value_2)
+
+      edge_1.origin.should eq(vertex_1)
+      edge_2.origin.should eq(vertex_2)
+
+      edge_1.next.should eq(edge_2)
+      edge_2.next.should eq(edge_1)
+
+      edge_1.previous.should eq(edge_2)
+      edge_2.previous.should eq(edge_1)
+
+      edge_1.twin.should eq(edge_2)
+      edge_2.twin.should eq(edge_1)
+
+      edge_1.face.should eq(face)
+      edge_2.face.should eq(face)
+    end
+  end
 end

@@ -3,8 +3,7 @@ class Geo::Graph::Face(V)
 
   property! :edge
 
-  def initialize
-    @edge = nil
+  def initialize(@edge = nil)
   end
 
   def edge_with_origin(vertex)

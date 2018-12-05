@@ -13,6 +13,8 @@ class Geo::Graph::Edge(V)
     @previous = nil
     @twin = nil
     @face = nil
+
+    @origin.edge = self
   end
 
   def target
