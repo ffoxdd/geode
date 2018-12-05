@@ -12,7 +12,7 @@ class Geo::Triangulation::Polygon
   end
 
   private class Edge
-    def initialize(@vertex_0 : Point2, @vertex_1 : Point2)
+    def initialize(@vertices : Tuple(Point2, Point2))
     end
 
     def can_see?(point)
@@ -20,11 +20,11 @@ class Geo::Triangulation::Polygon
     end
 
     private def edge_line
-      Point2.join(@vertex_0, @vertex_1)
+      Point2.join(*@vertices)
     end
 
     private def incident_line(point)
-      Point2.join(@vertex_0, point)
+      Point2.join(@vertices[0], point)
     end
   end
 
@@ -45,7 +45,7 @@ class Geo::Triangulation::Polygon
     end
 
     private def current_edge
-      Edge.new(@vertices[@index], @vertices[next_index])
+      Edge.new({@vertices[@index], @vertices[next_index]})
     end
 
     private def next_index
