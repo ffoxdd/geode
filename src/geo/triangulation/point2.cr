@@ -4,8 +4,8 @@ struct Geo::Triangulation::Point2
   def initialize(@vector)
   end
 
-  def Point2.from_coordinates(coordinates : Tuple(Float64, Float64, Float64))
-    Point2.new(Vector3.new(coordinates))
+  def self.from_coordinates(coordinates : Tuple(Float64, Float64, Float64))
+    new(Vector3.new(coordinates))
   end
 
   getter vector

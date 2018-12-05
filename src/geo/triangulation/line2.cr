@@ -4,8 +4,8 @@ struct Geo::Triangulation::Line2
   def initialize(@vector)
   end
 
-  def Line2.from_coordinates(coordinates : Tuple(Float64, Float64, Float64))
-    Line2.new(Vector3.new(coordinates))
+  def self.from_coordinates(coordinates : Tuple(Float64, Float64, Float64))
+    new(Vector3.new(coordinates))
   end
 
   getter vector
@@ -15,7 +15,7 @@ struct Geo::Triangulation::Line2
     Point2.new(vector)
   end
 
-  def Line2.right_handed?(l0, l1)
+  def self.right_handed?(l0, l1)
     v0 = l0.dual.direction
     v1 = l1.dual.direction
 

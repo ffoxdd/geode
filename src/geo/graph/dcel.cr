@@ -13,7 +13,7 @@ class Geo::Graph::DCEL(V)
     @faces = Set.new(faces)
   end
 
-  def DCEL.polygon(values : Array(V))
+  def self.polygon(values : Array(V))
     if values.size < 3
       raise "a polygon requires at least three vertices"
     end
