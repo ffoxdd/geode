@@ -1,10 +1,8 @@
 struct Geo::Triangulation::Line2
-  @vector : Vector3
-
-  def initialize(@vector)
+  def initialize(@vector : Vector3)
   end
 
-  def self.from_coordinates(coordinates : Tuple(Float64, Float64, Float64))
+  def self.from_coordinates(coordinates : Tuple3)
     new(Vector3.new(coordinates))
   end
 

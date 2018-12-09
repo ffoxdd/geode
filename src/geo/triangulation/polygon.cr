@@ -1,6 +1,5 @@
 class Geo::Triangulation::Polygon
-  def initialize(vertices : Array(Point2))
-    @vertices = vertices
+  def initialize(@vertices : Array(Point2))
   end
 
   def contains?(point)

@@ -1,4 +1,4 @@
-struct Geo::Triangulation::Vector3
+struct Geo::LinearAlgebra::Vector3
   def initialize(@coordinates = {0.0, 0.0, 0.0})
   end
 
