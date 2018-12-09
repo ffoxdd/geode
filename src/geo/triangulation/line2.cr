@@ -1,4 +1,6 @@
 struct Geo::Triangulation::Line2
+  include Indexable(Float64)
+
   def initialize(@vector : Vector3)
   end
 
@@ -7,7 +9,7 @@ struct Geo::Triangulation::Line2
   end
 
   getter vector
-  delegate :[], to: vector
+  delegate size, unsafe_at, to: vector
 
   def dual
     Point2.new(vector)

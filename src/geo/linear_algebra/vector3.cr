@@ -1,9 +1,11 @@
 struct Geo::LinearAlgebra::Vector3
+  include Indexable(Float64)
+
   def initialize(@coordinates = {0.0, 0.0, 0.0})
   end
 
   getter coordinates
-  delegate :[], to: coordinates
+  delegate :size, :unsafe_at, to: coordinates
 
   def self.cross(v1, v2)
     new({
