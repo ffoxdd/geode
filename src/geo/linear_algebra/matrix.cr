@@ -3,6 +3,7 @@ require "./linear_algebra"
 module Geo::LinearAlgebra::Matrix
   abstract def unsafe_at(index : Index)
   abstract def shape : Index
+  abstract def det
 
   def size
     shape.reduce { |i, j| i * j }
@@ -39,15 +40,6 @@ module Geo::LinearAlgebra::Matrix
     shape[0] == shape[1]
   end
 
-  def det
-    raise "matrix must be square" if !square?
-    return first if size == 1
-
-    each_index_for_row(0)
-      .map { |index| at(index) * cofactor(index) }
-      .reduce { |a, b| a + b }
-  end
-
   def assert_in_bounds(index)
     raise IndexError.new unless index_in_bounds?(index)
   end
@@ -58,21 +50,5 @@ module Geo::LinearAlgebra::Matrix
 
   private def index_as_tuple(index : Int32)
     index.divmod(shape[0])
-  end
-
-  private def cofactor(index)
-    cofactor_sign(index) * minor(index)
-  end
-
-  private def cofactor_sign(index)
-    -1 ** index.reduce { |a, b| a + b }
-  end
-
-  private def minor(index)
-    SubMatrix.new(self, skip: index).det
-  end
-
-  private def each_index_for_row(i)
-    (0...shape[1]).each.map { |j| {i, j} }
   end
 end
