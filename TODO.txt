@@ -1,1 +1,2 @@
 - [ ] Add unit tests around basic triangulation objects
+- [ ] Rewrite Matrix#det since the sub-matrix probably ruins the performance
