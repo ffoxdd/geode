@@ -19,15 +19,15 @@ class Geo::Triangulation::Polygon
     end
 
     def can_see?(point)
-      Line2.right_handed?(edge_line, incident_line(point))
+      triangle_matrix(point).det >= 0
     end
 
-    private def edge_line
-      Point2.join(@vertices[0], @vertices[1])
-    end
-
-    private def incident_line(point)
-      Point2.join(@vertices[0], point)
+    private def triangle_matrix(point)
+      Matrix3x3.new({
+        @vertices[0].vector.coordinates,
+        @vertices[1].vector.coordinates,
+        point.vector.coordinates
+      })
     end
   end
 end

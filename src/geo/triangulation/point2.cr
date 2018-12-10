@@ -10,12 +10,4 @@ struct Geo::Triangulation::Point2
 
   getter vector
   delegate size, unsafe_at, to: vector
-
-  def direction
-    Vector2.new({vector[0], vector[1]})
-  end
-
-  def Point2.join(p1, p2)
-    Line2.new(Vector3.cross(p1, p2))
-  end
 end
