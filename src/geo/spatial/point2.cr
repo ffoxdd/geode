@@ -1,5 +1,6 @@
 struct Geo::Spatial::Point2
-  include Indexable(Float64)
+  include Point
+  getter vector
 
   def initialize(@vector : Vector3)
   end
@@ -8,6 +9,10 @@ struct Geo::Spatial::Point2
     new(Vector3.new(coordinates))
   end
 
-  getter vector
-  delegate size, unsafe_at, coordinates, to: vector
+  def cartesian
+    Vector2.new(
+      at!(0) / at!(2),
+      at!(1) / at!(2),
+    )
+  end
 end
