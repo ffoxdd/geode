@@ -1,43 +1,26 @@
 class Geo::Graph::DCEL(V)
-  @values : Set(V)
-  @vertices : Set(Vertex(V))
-  @edges : Set(Edge(V))
-  @faces : Set(Face(V))
-
-  property :values, :vertices, :edges, :faces
-
-  def initialize(values, vertices, edges, faces)
-    @values = Set.new(values)
-    @vertices = Set.new(vertices)
-    @edges = Set.new(edges)
-    @faces = Set.new(faces)
+  def initialize
+    @values = Set(V).new
+    @vertices = Set(Vertex(V)).new
+    @edges = Set(Edge(V)).new
+    @faces = Set(Face(V)).new
   end
+
+  getter values, vertices, edges, faces
 
   def self.polygon(values : Array(V))
     raise ArgumentError.new("three or more vertices are required") if values.size < 3
 
-    starting_values = {values[0], values[1]}
-
-    DCEL.simple(starting_values).tap do |dcel|
-      first_edge = dcel.edge_with_target(starting_values[1])
-      leading_edge = dcel.add_to_edge(first_edge, values[2..-1])
+    DCEL(V).new.tap do |dcel|
+      first_edge = dcel.add_segment({values[0], values[1]})
+      leading_edge = dcel.add_vertices(first_edge, values[2..-1])
       dcel.split_face(leading_edge, first_edge.origin)
     end
   end
 
-  def add_to_edge(edge, values)
-    values.each { |value| edge = add_vertex(edge, value) }
-    edge
-  end
-
-  def edge_with_target(value)
-    edges.find { |edge| edge.target.value == value }.not_nil!
-  end
-
-  def self.simple(values : Tuple(V, V))
+  def add_segment(values : Tuple(V, V))
     vertices = values.map { |value| Vertex(V).new(value) }
     edges = vertices.map { |vertex| Edge(V).new(vertex) }
-
     face = Face(V).new(edges.first)
     edges.each { |edge| edge.face = face }
 
@@ -45,23 +28,33 @@ class Geo::Graph::DCEL(V)
     Edge.link_adjacent(*edges.reverse)
     Edge.link_twins(*edges)
 
-    DCEL(V).new(values, vertices, edges, {face})
+    @values.concat(values)
+    @vertices.concat(vertices)
+    @edges.concat(edges)
+    @faces.add(face)
+
+    edges.first
   end
 
-  def add_vertex(incident_edge, value)
-    old_next_edge = incident_edge.next
+  def add_vertices(edge, values)
+    values.each { |value| edge = add_vertex(edge, value) }
+    edge
+  end
+
+  def add_vertex(edge, value)
+    old_next_edge = edge.next
 
     new_vertex = Vertex(V).new(value)
-    outward_edge = Edge(V).new(incident_edge.target)
+    outward_edge = Edge(V).new(edge.target)
     inward_edge = Edge(V).new(new_vertex)
 
     Edge.link_twins(outward_edge, inward_edge)
 
-    Edge.link_adjacent(incident_edge, outward_edge)
+    Edge.link_adjacent(edge, outward_edge)
     Edge.link_adjacent(outward_edge, inward_edge)
     Edge.link_adjacent(inward_edge, old_next_edge)
 
-    outward_edge.face = inward_edge.face = incident_edge.face
+    outward_edge.face = inward_edge.face = edge.face
 
     edges << outward_edge << inward_edge
     vertices << new_vertex
