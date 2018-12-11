@@ -5,6 +5,8 @@ module Geo::LinearAlgebra::Matrix
   abstract def shape : Index
   abstract def det
 
+  include Indexable(Float64)
+
   def size
     shape.reduce { |i, j| i * j }
   end
@@ -13,11 +15,9 @@ module Geo::LinearAlgebra::Matrix
     at(index_as_tuple(index))
   end
 
-  def unsafe_at(*index : Index)
+  def unsafe_at(*index)
     unsafe_at(index)
   end
-
-  include Indexable(Float64)
 
   def at(index : Index)
     assert_in_bounds(index)

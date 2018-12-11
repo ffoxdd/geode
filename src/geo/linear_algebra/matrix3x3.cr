@@ -18,8 +18,12 @@ struct Geo::LinearAlgebra::Matrix3x3
   end
 
   def det
-    @elements[0][0] * ((@elements[1][1] * @elements[2][2]) - (@elements[2][1] * @elements[1][2])) -
-    @elements[0][1] * ((@elements[1][0] * @elements[2][2]) - (@elements[2][0] * @elements[1][2])) +
-    @elements[0][2] * ((@elements[1][0] * @elements[2][1]) - (@elements[2][0] * @elements[1][1]))
+    e(0, 0) * ((e(1, 1) * e(2, 2)) - (e(2, 1) * e(1, 2))) -
+    e(0, 1) * ((e(1, 0) * e(2, 2)) - (e(2, 0) * e(1, 2))) +
+    e(0, 2) * ((e(1, 0) * e(2, 1)) - (e(2, 0) * e(1, 1)))
+  end
+
+  private def e(i, j)
+    @elements[i][j]
   end
 end
