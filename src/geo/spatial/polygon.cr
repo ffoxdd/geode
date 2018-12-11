@@ -1,4 +1,4 @@
-class Geo::Triangulation::Polygon
+class Geo::Spatial::Polygon
   def initialize(@vertices : Array(Point2))
   end
 

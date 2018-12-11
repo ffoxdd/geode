@@ -1,6 +1,6 @@
 require "../../spec_helper"
 
-describe Geo::Triangulation::Polygon do
+describe Geo::Spatial::Polygon do
   describe "#contains?" do
     [
       {
@@ -79,12 +79,12 @@ describe Geo::Triangulation::Polygon do
       setup[:tests].each do |test|
         it "returns #{test[:result]} for #{test[:point]} in #{setup[:polygon]}" do
           polygon_points = setup[:polygon].map do |coordinates|
-            Geo::Triangulation::Point2.from_coordinates(coordinates)
+            Geo::Spatial::Point2.from_coordinates(coordinates)
           end
 
-          polygon = Geo::Triangulation::Polygon.new(polygon_points)
+          polygon = Geo::Spatial::Polygon.new(polygon_points)
 
-          test_point = Geo::Triangulation::Point2.from_coordinates(test[:point])
+          test_point = Geo::Spatial::Point2.from_coordinates(test[:point])
           polygon.contains?(test_point).should eq(test[:result])
         end
       end

@@ -1,4 +1,4 @@
-struct Geo::Triangulation::Point2
+struct Geo::Spatial::Point2
   include Indexable(Float64)
 
   def initialize(@vector : Vector3)
