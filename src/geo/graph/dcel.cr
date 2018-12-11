@@ -7,6 +7,7 @@ class Geo::Graph::DCEL(V)
   end
 
   getter values, vertices, edges, faces
+  delegate empty?, to: @values
 
   def self.polygon(values : Array(V))
     raise ArgumentError.new("three or more vertices are required") if values.size < 3

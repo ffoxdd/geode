@@ -1,8 +1,5 @@
 require "../../spec_helper"
 
-class TestValue
-end
-
 describe Geo::Graph::DCEL(TestValue) do
   describe "#initialize" do
     it "returns an empty DCEL" do
