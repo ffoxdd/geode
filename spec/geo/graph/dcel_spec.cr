@@ -69,7 +69,7 @@ describe Geo::Graph::DCEL(TestValue) do
 
   describe "#add_vertex" do
     it "adds a vertex by connecting [incident_vertex.target, new_vertex]" do
-      dcel = Geo::Graph::DCEL(TestValue).simple(TestValue.new, TestValue.new)
+      dcel = Geo::Graph::DCEL(TestValue).simple({TestValue.new, TestValue.new})
       new_value = TestValue.new
 
       incident_edge = dcel.edges.first
@@ -140,7 +140,7 @@ describe Geo::Graph::DCEL(TestValue) do
       value_1 = TestValue.new
       value_2 = TestValue.new
 
-      dcel = Geo::Graph::DCEL(TestValue).simple(value_1, value_2)
+      dcel = Geo::Graph::DCEL(TestValue).simple({value_1, value_2})
 
       dcel.vertices.size.should eq(2)
       dcel.edges.size.should eq(2)

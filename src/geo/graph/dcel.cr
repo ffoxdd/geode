@@ -14,34 +14,27 @@ class Geo::Graph::DCEL(V)
   end
 
   def self.polygon(values : Array(V))
-    if values.size < 3
-      raise "a polygon requires at least three vertices"
+    raise ArgumentError.new("three or more vertices are required") if values.size < 3
+
+    starting_values = {values[0], values[1]}
+
+    DCEL.simple(starting_values).tap do |dcel|
+      first_edge = dcel.edge_with_target(starting_values[1])
+      leading_edge = dcel.add_to_edge(first_edge, values[2..-1])
+      dcel.split_face(leading_edge, first_edge.origin)
     end
+  end
 
-    values = values.dup
-    value_1 = values.shift
-    value_2 = values.shift
-
-    dcel = DCEL.simple(value_1, value_2)
-    first_edge = dcel.edge_with_target(value_2)
-
-    leading_edge = first_edge
-
-    values.each do |value|
-      leading_edge = dcel.add_vertex(leading_edge, value)
-    end
-
-    dcel.split_face(leading_edge, first_edge.origin)
-
-    dcel
+  def add_to_edge(edge, values)
+    values.each { |value| edge = add_vertex(edge, value) }
+    edge
   end
 
   def edge_with_target(value)
     edges.find { |edge| edge.target.value == value }.not_nil!
   end
 
-  def self.simple(value_1 : V, value_2 : V)
-    values = {value_1, value_2}
+  def self.simple(values : Tuple(V, V))
     vertices = values.map { |value| Vertex(V).new(value) }
     edges = vertices.map { |vertex| Edge(V).new(vertex) }
 
