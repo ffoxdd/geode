@@ -3,37 +3,91 @@ require "../../spec_helper"
 describe Geo::Triangulation::Polygon do
   describe "#contains?" do
     [
+      {
+        # bounded triangle
+        polygon: [
+          {0.0, 0.0, 1.0},
+          {3.0, 0.0, 1.0},
+          {0.0, 3.0, 1.0},
+        ],
 
-      # inside
-      {coordinates: {1.0, 1.0, 1.0}, result: true},
+        tests: [
+          # inside
+          {point: {1.0, 1.0, 1.0}, result: true},
+          {point: {-1.0, -1.0, -1.0}, result: true},
 
-      # on the perimeter
-      {coordinates: {0.0, 0.0, 1.0}, result: true},
-      {coordinates: {0.0, 1.0, 1.0}, result: true},
-      {coordinates: {0.0, 3.0, 1.0}, result: true},
-      {coordinates: {0.0, 0.0, 1.0}, result: true},
-      {coordinates: {2.0, 1.0, 1.0}, result: true},
-      {coordinates: {0.0, 3.0, 1.0}, result: true},
-      {coordinates: {0.0, 2.0, 1.0}, result: true},
+          # on the perimeter
+          {point: {0.0, 0.0, 1.0}, result: true},
+          {point: {0.0, 1.0, 1.0}, result: true},
+          {point: {0.0, 3.0, 1.0}, result: true},
+          {point: {0.0, 0.0, 1.0}, result: true},
+          {point: {2.0, 1.0, 1.0}, result: true},
+          {point: {0.0, 3.0, 1.0}, result: true},
+          {point: {0.0, 2.0, 1.0}, result: true},
 
-      # outside
-      {coordinates: {-1.0, 0.0, 1.0}, result: false},
-      {coordinates: {4.0, 0.0, 1.0}, result: false},
-      {coordinates: {0.0, -1.0, 1.0}, result: false},
-      {coordinates: {0.0, 4.0, 1.0}, result: false},
-      {coordinates: {3.0, 3.0, 1.0}, result: false},
-      {coordinates: {-1.0, 1.0, 1.0}, result: false},
-      {coordinates: {1.0, -1.0, 1.0}, result: false},
+          # outside
+          {point: {-1.0, 0.0, 1.0}, result: false},
+          {point: {4.0, 0.0, 1.0}, result: false},
+          {point: {0.0, -1.0, 1.0}, result: false},
+          {point: {0.0, 4.0, 1.0}, result: false},
+          {point: {3.0, 3.0, 1.0}, result: false},
+          {point: {-1.0, 1.0, 1.0}, result: false},
+          {point: {1.0, -1.0, 1.0}, result: false},
+        ],
+      },
 
-    ].each do |test|
-      p1 = Geo::Triangulation::Point2.from_coordinates({0.0, 0.0, 1.0})
-      p2 = Geo::Triangulation::Point2.from_coordinates({3.0, 0.0, 1.0})
-      p3 = Geo::Triangulation::Point2.from_coordinates({0.0, 3.0, 1.0})
+      {
+        # infinite triangle
+        polygon: [
+          {0.0, 0.0, 1.0},
+          {1.0, 1.0, 0.0},
+          {0.0, 1.0, 0.0},
+        ],
 
-      polygon = Geo::Triangulation::Polygon.new([p1, p2, p3])
+        tests: [
+          {point: {0.0, 0.0, 1.0}, result: true},
+          {point: {3.0, 3.0, 1.0}, result: true},
+          {point: {2.0, 2.0, 0.0}, result: true},
+          {point: {0.0, 1.0, 0.0}, result: true},
+          {point: {0.0, 1.0, 1.0}, result: true},
+          {point: {1.0, 2.0, 1.0}, result: true},
+          {point: {1.0, 1.1, 0.0}, result: true},
 
-      test_point = Geo::Triangulation::Point2.from_coordinates(test[:coordinates])
-      polygon.contains?(test_point).should eq(test[:result])
+          {point: {1.0, 0.0, 1.0}, result: false},
+          {point: {0.0, -1.0, 1.0}, result: false},
+          {point: {-1.0, 0.0, 1.0}, result: false},
+          {point: {1.1, 1.0, 0.0}, result: false},
+          {point: {1.0, 0.0, 1.0}, result: false},
+        ],
+      },
+
+      {
+        # mixed scale triangle
+        polygon: [
+          {0.0, 0.0, -2.0},
+          {9.0, 0.0, 3.0},
+          {0.0, -3.0, -1.0},
+        ],
+
+        tests: [
+          {point: {1.0, 1.0, 1.0}, result: true},
+          {point: {-1.0, -1.0, -1.0}, result: true},
+        ],
+      },
+
+    ].each do |setup|
+      setup[:tests].each do |test|
+        it "returns #{test[:result]} for #{test[:point]} in #{setup[:polygon]}" do
+          polygon_points = setup[:polygon].map do |coordinates|
+            Geo::Triangulation::Point2.from_coordinates(coordinates)
+          end
+
+          polygon = Geo::Triangulation::Polygon.new(polygon_points)
+
+          test_point = Geo::Triangulation::Point2.from_coordinates(test[:point])
+          polygon.contains?(test_point).should eq(test[:result])
+        end
+      end
     end
   end
 end

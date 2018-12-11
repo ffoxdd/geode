@@ -9,5 +9,5 @@ struct Geo::Triangulation::Point2
   end
 
   getter vector
-  delegate size, unsafe_at, to: vector
+  delegate size, unsafe_at, coordinates, to: vector
 end
