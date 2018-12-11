@@ -8,13 +8,14 @@ struct Geo::Spatial::Triangle
   end
 
   private def inner_triangles(point)
-    @points.each
-      .cycle
-      .cons(2, true)
-      .first(3)
+    each_edge_point_pair
       .map { |points| {points[0], points[1], point} }
       .map { |points| points.map(&.coordinates) }
       .map { |points| TriangleMatrix.new(points) }
+  end
+
+  private def each_edge_point_pair
+    @points.each.cycle.cons(2, true).first(3)
   end
 
   private struct TriangleMatrix
