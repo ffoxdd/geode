@@ -1,4 +1,4 @@
-struct Geo::Spatial::Tetrahedron
+struct Geo::Simplices::Tetrahedron
   def initialize(points : Tuple(Point3, Point3, Point3, Point3))
     @matrix = Matrix4x4.new(points.map(&.coordinates))
   end

@@ -1,4 +1,4 @@
-struct Geo::Spatial::Triangle
+struct Geo::Simplices::Triangle
   def initialize(@points : Tuple(Point2, Point2, Point2))
   end
 

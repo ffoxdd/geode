@@ -1,6 +1,6 @@
 require "../../spec_helper"
 
-describe Geo::Spatial::Tetrahedron do
+describe Geo::Simplices::Tetrahedron do
   describe "#signed_volume" do
     [
       {
@@ -82,10 +82,10 @@ describe Geo::Spatial::Tetrahedron do
     ].each do |test|
       it "returns #{test[:result]} for #{test[:tetrahedron]}" do
         points = test[:tetrahedron].map do |coordinates|
-          Geo::Spatial::Point3.from_coordinates(coordinates)
+          Geo::Simplices::Point3.from_coordinates(coordinates)
         end
 
-        tetrahedron = Geo::Spatial::Tetrahedron.new(points)
+        tetrahedron = Geo::Simplices::Tetrahedron.new(points)
         tetrahedron.signed_volume.should eq(test[:result])
       end
     end

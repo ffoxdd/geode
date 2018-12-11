@@ -1,6 +1,6 @@
 require "../../spec_helper"
 
-describe Geo::Spatial::Triangle do
+describe Geo::Simplices::Triangle do
   describe "#contains?" do
     [
       { # bounded triangle
@@ -75,11 +75,11 @@ describe Geo::Spatial::Triangle do
       setup[:tests].each do |test|
         it "returns #{test[:result]} for #{test[:point]} in #{setup[:triangle]}" do
           triangle_points = setup[:triangle].map do |coordinates|
-            Geo::Spatial::Point2.from_coordinates(coordinates)
+            Geo::Simplices::Point2.from_coordinates(coordinates)
           end
 
-          triangle = Geo::Spatial::Triangle.new(triangle_points)
-          test_point = Geo::Spatial::Point2.from_coordinates(test[:point])
+          triangle = Geo::Simplices::Triangle.new(triangle_points)
+          test_point = Geo::Simplices::Point2.from_coordinates(test[:point])
 
           triangle.contains?(test_point).should eq(test[:result])
         end

@@ -1,4 +1,4 @@
-struct Geo::Spatial::Point3
+struct Geo::Simplices::Point3
   include Point
   getter vector
 
