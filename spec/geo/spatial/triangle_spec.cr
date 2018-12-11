@@ -1,15 +1,14 @@
 require "../../spec_helper"
 
-describe Geo::Spatial::Polygon do
+describe Geo::Spatial::Triangle do
   describe "#contains?" do
     [
-      {
-        # bounded triangle
-        polygon: [
+      { # bounded triangle
+        triangle: {
           {0.0, 0.0, 1.0},
           {3.0, 0.0, 1.0},
           {0.0, 3.0, 1.0},
-        ],
+        },
 
         tests: [
           # inside
@@ -36,13 +35,12 @@ describe Geo::Spatial::Polygon do
         ],
       },
 
-      {
-        # infinite triangle
-        polygon: [
+      { # infinite
+        triangle: {
           {0.0, 0.0, 1.0},
           {1.0, 1.0, 0.0},
           {0.0, 1.0, 0.0},
-        ],
+        },
 
         tests: [
           {point: {0.0, 0.0, 1.0}, result: true},
@@ -61,31 +59,46 @@ describe Geo::Spatial::Polygon do
         ],
       },
 
-      {
-        # mixed scale triangle
-        polygon: [
+      { # mixed scale
+        triangle: {
           {0.0, 0.0, -2.0},
           {9.0, 0.0, 3.0},
           {0.0, -3.0, -1.0},
-        ],
+        },
 
         tests: [
           {point: {1.0, 1.0, 1.0}, result: true},
           {point: {-1.0, -1.0, -1.0}, result: true},
         ],
       },
+    ]
+
+    [
+
+      { # bounded triangle
+        triangle: {
+          {0.0, 0.0, 1.0},
+          {3.0, 0.0, 1.0},
+          {0.0, 3.0, 1.0},
+        },
+
+        tests: [
+          # {point: {-1.0, -1.0, -1.0}, result: true},
+          {point: {-1.0, 0.0, 1.0}, result: false},
+        ],
+      }
 
     ].each do |setup|
       setup[:tests].each do |test|
-        it "returns #{test[:result]} for #{test[:point]} in #{setup[:polygon]}" do
-          polygon_points = setup[:polygon].map do |coordinates|
+        it "returns #{test[:result]} for #{test[:point]} in #{setup[:triangle]}" do
+          triangle_points = setup[:triangle].map do |coordinates|
             Geo::Spatial::Point2.from_coordinates(coordinates)
           end
 
-          polygon = Geo::Spatial::Polygon.new(polygon_points)
-
+          triangle = Geo::Spatial::Triangle.new(triangle_points)
           test_point = Geo::Spatial::Point2.from_coordinates(test[:point])
-          polygon.contains?(test_point).should eq(test[:result])
+
+          triangle.contains?(test_point).should eq(test[:result])
         end
       end
     end
