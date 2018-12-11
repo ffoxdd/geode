@@ -71,23 +71,6 @@ describe Geo::Spatial::Triangle do
           {point: {-1.0, -1.0, -1.0}, result: true},
         ],
       },
-    ]
-
-    [
-
-      { # bounded triangle
-        triangle: {
-          {0.0, 0.0, 1.0},
-          {3.0, 0.0, 1.0},
-          {0.0, 3.0, 1.0},
-        },
-
-        tests: [
-          # {point: {-1.0, -1.0, -1.0}, result: true},
-          {point: {-1.0, 0.0, 1.0}, result: false},
-        ],
-      }
-
     ].each do |setup|
       setup[:tests].each do |test|
         it "returns #{test[:result]} for #{test[:point]} in #{setup[:triangle]}" do

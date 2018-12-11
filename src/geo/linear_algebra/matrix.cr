@@ -40,10 +40,6 @@ module Geo::LinearAlgebra::Matrix
     at(index)
   end
 
-  def e(i, j)
-    @elements[i][j]
-  end
-
   def square?
     shape[0] == shape[1]
   end

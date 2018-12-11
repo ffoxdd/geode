@@ -1,6 +1,5 @@
 struct Geo::Spatial::Triangle
-  def initialize(points : Tuple(Point2, Point2, Point2))
-    @points = points
+  def initialize(@points : Tuple(Point2, Point2, Point2))
   end
 
   def contains?(point)
@@ -23,20 +22,18 @@ struct Geo::Spatial::Triangle
       @matrix = Matrix3x3.new(coordinates)
     end
 
+    delegate det, at!, to: @matrix
+
     def area_sign
-      @matrix.det / scale_sign
+      det / scale_sign
     end
 
     private def scale_sign
-      sign(at(0, 2)) * sign(at(1, 2)) * sign(at(2, 2))
+      sign(at!(0, 2)) * sign(at!(1, 2)) * sign(at!(2, 2))
     end
 
     private def sign(n)
       n == 0 ? 1 : n
-    end
-
-    private def at(i, j)
-      @matrix.unsafe_at({i, j})
     end
   end
 end

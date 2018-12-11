@@ -2,7 +2,7 @@ struct Geo::Spatial::Point3
   include Point
   getter vector
 
-  def initialize(@vector : Vector3)
+  def initialize(@vector : Vector4)
   end
 
   def self.from_coordinates(coordinates : Tuple4)
