@@ -19,6 +19,10 @@ module Geo::LinearAlgebra::Matrix
     unsafe_at(index)
   end
 
+  def at!(*index)
+    unsafe_at(index)
+  end
+
   def at(index : Index)
     assert_in_bounds(index)
     unsafe_at(index)

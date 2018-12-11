@@ -1,3 +1,5 @@
 - [ ] Add unit tests around basic triangulation objects
 - [ ] Rewrite Matrix#det since the sub-matrix probably ruins the performance
 - [ ] Switch from spec to normal tests so you can use more language features
+- [ ] See if it's possible to write fast determinant code with macros
+- [ ] See if it's possible to profile the compiled code for fast classes
