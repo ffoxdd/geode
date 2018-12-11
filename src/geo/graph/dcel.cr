@@ -97,4 +97,37 @@ class Geo::Graph::DCEL(V)
     edges << new_edge << new_edge_twin
     faces << new_face
   end
+
+  def dilate_edge(edge, value)
+    old_next_edge = edge.next
+    old_previous_edge = edge.previous
+    old_face = edge.face
+
+    new_vertex = Vertex(V).new(value)
+    outward_edge = Edge(V).new(edge.target)
+    inward_edge = Edge(V).new(new_vertex)
+    outward_edge_twin = Edge(V).new(new_vertex)
+    inward_edge_twin = Edge(V).new(edge.origin)
+    new_face = Face(V).new
+
+    Edge.link_twins(outward_edge, outward_edge_twin)
+    Edge.link_twins(inward_edge, inward_edge_twin)
+
+    Edge.link_adjacent(edge, inward_edge)
+    Edge.link_adjacent(inward_edge, outward_edge)
+    Edge.link_adjacent(outward_edge, edge)
+    Edge.link_adjacent(old_previous_edge, outward_edge_twin)
+    Edge.link_adjacent(outward_edge_twin, inward_edge_twin)
+    Edge.link_adjacent(inward_edge_twin, old_next_edge)
+
+    edge.each_face_edge { |e| e.face = new_face }
+    outward_edge_twin.face = inward_edge_twin.face = old_face
+
+    values << value
+    vertices << new_vertex
+    edges << outward_edge << inward_edge << outward_edge_twin << inward_edge_twin
+    faces << new_face
+
+    outward_edge
+  end
 end

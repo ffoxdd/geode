@@ -112,6 +112,33 @@ describe Geo::Graph::DCEL(TestValue) do
     end
   end
 
+  describe "#dilate_edge" do
+    it "creates a triangle inside a face" do
+      dcel = Geo::Graph::DCEL(TestValue).new
+      incident_edge = dcel.add_segment({TestValue.new, TestValue.new})
+
+      new_value = TestValue.new
+
+      edge = dcel.edges.first
+      old_next_edge = edge.next
+      old_previous_edge = edge.previous
+
+      dcel.dilate_edge(edge, new_value)
+
+      inward_edge = edge.next
+      outward_edge = edge.previous
+
+      inward_edge.next.should eq(outward_edge)
+      outward_edge.next.should eq(edge)
+
+      old_previous_edge.next.should eq(outward_edge.twin)
+      outward_edge.twin.next.should eq(inward_edge.twin)
+      inward_edge.twin.next.should eq(old_next_edge)
+
+      old_next_edge.face.should_not eq(edge.face)
+    end
+  end
+
   describe "#split_face" do
     it "splits the face along the line indicated by an edge and a vertex" do
       values = Array.new(4) { TestValue.new }

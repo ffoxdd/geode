@@ -38,6 +38,10 @@ class Geo::Graph::Edge(V)
     next_edge.previous = previous_edge
   end
 
+  def self.link_adjacent(*edges)
+    edges.each_cons(2) { |edges| link_adjacent(edges[0], edges[1]) }
+  end
+
   def self.link_twins(edge_0, edge_1)
     edge_0.twin = edge_1
     edge_1.twin = edge_0

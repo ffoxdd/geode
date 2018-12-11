@@ -32,7 +32,7 @@ class Geo::ConvexHull::GiftWrap
   end
 
   private def add_to_hull(edge, point)
-    @dcel.extend_triangle(edge, point)
+    @dcel.dilate_edge(edge, point)
   end
 
   private def point_with_maximum_angle(edge)
