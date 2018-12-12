@@ -21,8 +21,20 @@ class Geo::Graph::Edge(V)
     self.next.origin
   end
 
+  def vertices
+    {origin, target}
+  end
+
+  def values
+    vertices.map(&.value)
+  end
+
   def incident_to?(vertex)
     origin == vertex || target == vertex
+  end
+
+  def adjacent_to?(vertex)
+    incident_to?(vertex) || self.next.target == vertex
   end
 
   def each_face_edge
@@ -48,7 +60,7 @@ class Geo::Graph::Edge(V)
   end
 
   private class FaceEdgeIterator(V)
-    include Iterator(Array(V))
+    include Iterator(Edge(V))
 
     def initialize(@initial_edge : Edge(V))
       @current_edge = @initial_edge

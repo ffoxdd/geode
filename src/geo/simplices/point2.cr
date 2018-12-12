@@ -15,4 +15,8 @@ struct Geo::Simplices::Point2
       at!(1) / at!(2),
     )
   end
+
+  def scale
+    at!(2)
+  end
 end

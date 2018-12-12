@@ -3,4 +3,4 @@
 - [ ] See if it's possible to write fast determinant code with macros
 - [ ] See if it's possible to profile the compiled code for fast classes
 - [ ] Move Vector3.from_spherical_coordinates/random (a vector doesn't need to know where it's embedded)
-- [ ] Make precondition tests consitent in DCEL mutation methos
+- [ ] Transmit update information during DCEL operations by (optionally) yielding a rich update information structure

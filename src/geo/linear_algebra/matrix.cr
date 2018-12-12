@@ -1,7 +1,7 @@
 require "./linear_algebra"
 
 module Geo::LinearAlgebra::Matrix
-  abstract def unsafe_at(index : Index)
+  abstract def unsafe_fetch(index : Index)
   abstract def shape : Index
   abstract def det
 
@@ -11,33 +11,33 @@ module Geo::LinearAlgebra::Matrix
     shape.reduce { |i, j| i * j }
   end
 
-  def unsafe_at(index : Int32)
-    at(index_as_tuple(index))
+  def unsafe_fetch(index : Int32)
+    unsafe_fetch(index_as_tuple(index))
   end
 
-  def unsafe_at(*index)
-    unsafe_at(index)
+  def unsafe_fetch(*index)
+    unsafe_fetch(index)
   end
 
   def at!(*index)
-    unsafe_at(index)
+    unsafe_fetch(index)
   end
 
-  def at(index : Index)
+  def fetch(index : Index)
     assert_in_bounds(index)
-    unsafe_at(index)
+    unsafe_fetch(index)
   end
 
-  def at(*index)
-    at(index)
+  def fetch(*index)
+    fetch(index)
   end
 
   def [](index : Index)
-    at(index)
+    fetch(index)
   end
 
   def [](*index)
-    at(index)
+    fetch(index)
   end
 
   def square?

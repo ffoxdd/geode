@@ -5,11 +5,21 @@ struct Geo::LinearAlgebra::Vector3
   def initialize(@coordinates = {0.0, 0.0, 0.0})
   end
 
-  def self.cross(v1, v2)
+  def self.cross(v : Tuple(Vector3, Vector3))
     new({
-       v1.at!(1) * v2.at!(2) - v1.at!(2) * v2.at!(1),
-      -v1.at!(0) * v2.at!(2) + v1.at!(2) * v2.at!(0),
-       v1.at!(0) * v2.at!(1) - v1.at!(1) * v2.at!(0)
+       v[0].at!(1) * v[1].at!(2) - v[0].at!(2) * v[1].at!(1),
+      -v[0].at!(0) * v[1].at!(2) + v[0].at!(2) * v[1].at!(0),
+       v[0].at!(0) * v[1].at!(1) - v[0].at!(1) * v[1].at!(0)
     })
+  end
+
+  def self.dot(v : Tuple(Vector3, Vector3))
+    (v[0].at!(0) * v[1].at!(0)) +
+    (v[0].at!(1) * v[1].at!(1)) +
+    (v[0].at!(2) * v[1].at!(2))
+  end
+
+  def dot(v)
+    Vector3.dot({self, v})
   end
 end

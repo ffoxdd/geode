@@ -1,6 +1,6 @@
 require "../../spec_helper"
 
-describe Geo::Simplices::Triangle do
+describe Geo::Simplices::Triangle2 do
   describe "#contains?" do
     [
       { # bounded triangle
@@ -78,7 +78,7 @@ describe Geo::Simplices::Triangle do
             Geo::Simplices::Point2.from_coordinates(coordinates)
           end
 
-          triangle = Geo::Simplices::Triangle.new(triangle_points)
+          triangle = Geo::Simplices::Triangle2.new(triangle_points)
           test_point = Geo::Simplices::Point2.from_coordinates(test[:point])
 
           triangle.contains?(test_point).should eq(test[:result])

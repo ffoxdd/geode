@@ -6,7 +6,7 @@ struct Geo::LinearAlgebra::Matrix3x3
   def initialize(@elements : Tuple3x3)
   end
 
-  def unsafe_at(index : Index)
+  def unsafe_fetch(index : Index)
     @elements[index[0]][index[1]]
   end
 

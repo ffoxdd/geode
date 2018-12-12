@@ -149,7 +149,7 @@ describe Geo::Graph::DCEL(TestValue) do
       edge_3 = edge_2.next
       edge_4 = edge_3.next
 
-      dcel.split_face(edge_1, edge_4.origin)
+      dcel.split_face(edge_1, edge_4)
 
       new_edge = edge_1.next
 

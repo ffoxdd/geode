@@ -1,4 +1,4 @@
-struct Geo::Simplices::Triangle
+struct Geo::Simplices::Triangle2
   def initialize(@points : Tuple(Point2, Point2, Point2))
   end
 
@@ -7,7 +7,7 @@ struct Geo::Simplices::Triangle
   end
 
   def signed_area
-    TriangleMatrix.new(coordinates)
+    TriangleMatrix2.new(coordinates)
   end
 
   private def coordinates
@@ -18,14 +18,14 @@ struct Geo::Simplices::Triangle
     each_edge_point_pair
       .map { |points| {points[0], points[1], point} }
       .map { |points| points.map(&.coordinates) }
-      .map { |points| TriangleMatrix.new(points) }
+      .map { |points| TriangleMatrix2.new(points) }
   end
 
   private def each_edge_point_pair
     @points.each.cycle.cons(2, true).first(3)
   end
 
-  private struct TriangleMatrix
+  private struct TriangleMatrix2
     def initialize(coordinates : Tuple3x3)
       @matrix = Matrix3x3.new(coordinates)
     end
