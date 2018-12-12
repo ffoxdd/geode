@@ -13,8 +13,10 @@ class Geo::Graph::DCEL(V)
     raise ArgumentError.new("three or more vertices are required") if values.size < 3
 
     DCEL(V).new.tap do |dcel|
-      first_edge = dcel.add_segment({values[0], values[1]})
-      leading_edge = dcel.add_vertices(first_edge, values[2..-1])
+      each_value = values.each
+
+      first_edge = dcel.add_segment({each_value.next.as(V), each_value.next.as(V)})
+      leading_edge = dcel.add_vertices(first_edge, each_value)
       dcel.split_face(leading_edge, first_edge.origin)
     end
   end
@@ -32,7 +34,7 @@ class Geo::Graph::DCEL(V)
     @values.concat(values)
     @vertices.concat(vertices)
     @edges.concat(edges)
-    @faces.add(face)
+    @faces << face
 
     edges.first
   end
@@ -50,16 +52,13 @@ class Geo::Graph::DCEL(V)
     inward_edge = Edge(V).new(new_vertex)
 
     Edge.link_twins(outward_edge, inward_edge)
-
-    Edge.link_adjacent(edge, outward_edge)
-    Edge.link_adjacent(outward_edge, inward_edge)
-    Edge.link_adjacent(inward_edge, old_next_edge)
+    Edge.link_adjacent(edge, outward_edge, inward_edge, old_next_edge)
 
     outward_edge.face = inward_edge.face = edge.face
 
-    edges << outward_edge << inward_edge
-    vertices << new_vertex
-    values << value
+    @edges << outward_edge << inward_edge
+    @vertices << new_vertex
+    @values << value
 
     outward_edge
   end
@@ -79,11 +78,8 @@ class Geo::Graph::DCEL(V)
 
     Edge.link_twins(new_edge, new_edge_twin)
 
-    Edge.link_adjacent(edge, new_edge)
-    Edge.link_adjacent(new_edge, target_edge)
-
-    Edge.link_adjacent(old_previous_target_edge, new_edge_twin)
-    Edge.link_adjacent(new_edge_twin, old_next_edge)
+    Edge.link_adjacent(edge, new_edge, target_edge)
+    Edge.link_adjacent(old_previous_target_edge, new_edge_twin, old_next_edge)
 
     old_face = edge.face
     new_face = Face(V).new
@@ -94,40 +90,12 @@ class Geo::Graph::DCEL(V)
     old_face.edge = edge
     new_face.edge = new_edge_twin
 
-    edges << new_edge << new_edge_twin
-    faces << new_face
+    @edges << new_edge << new_edge_twin
+    @faces << new_face
   end
 
   def dilate_edge(edge, value)
-    old_next_edge = edge.next
-    old_previous_edge = edge.previous
-    old_face = edge.face
-
-    new_vertex = Vertex(V).new(value)
-    outward_edge = Edge(V).new(edge.target)
-    inward_edge = Edge(V).new(new_vertex)
-    outward_edge_twin = Edge(V).new(new_vertex)
-    inward_edge_twin = Edge(V).new(edge.origin)
-    new_face = Face(V).new
-
-    Edge.link_twins(outward_edge, outward_edge_twin)
-    Edge.link_twins(inward_edge, inward_edge_twin)
-
-    Edge.link_adjacent(edge, inward_edge)
-    Edge.link_adjacent(inward_edge, outward_edge)
-    Edge.link_adjacent(outward_edge, edge)
-    Edge.link_adjacent(old_previous_edge, outward_edge_twin)
-    Edge.link_adjacent(outward_edge_twin, inward_edge_twin)
-    Edge.link_adjacent(inward_edge_twin, old_next_edge)
-
-    edge.each_face_edge { |e| e.face = new_face }
-    outward_edge_twin.face = inward_edge_twin.face = old_face
-
-    values << value
-    vertices << new_vertex
-    edges << outward_edge << inward_edge << outward_edge_twin << inward_edge_twin
-    faces << new_face
-
-    outward_edge
+    new_edge = add_vertex(edge, value)
+    split_face(new_edge, edge.origin)
   end
 end
